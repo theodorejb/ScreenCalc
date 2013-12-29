@@ -1,0 +1,5 @@
+ts_definitions
+tscommand.tmp.txt
+*.map
+*.ts
+!*.d.ts

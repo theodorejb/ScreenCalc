@@ -1,0 +1,43 @@
+{
+  "name": "screencalc",
+  "version": "0.1.0",
+  "description": "Calculate data about any display (width, height, ratio, area, density, etc.)",
+  "author": {
+    "name": "Theodore Brown",
+    "email": "theodorejb@outlook.com",
+    "url": "http://designedbytheo.com/"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/theodorejb/ScreenCalc",
+  "bugs": {
+    "url": "https://github.com/theodorejb/ScreenCalc/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theodorejb/ScreenCalc.git"
+  },
+  "keywords": [
+    "screen",
+    "display",
+    "calculate",
+    "aspect ratio",
+    "area",
+    "density",
+    "ppi",
+    "width",
+    "height"
+  ],
+  "devDependencies": {
+    "typescript": "0.9.x",
+    "browserify": "3.14.x",
+    "grunt": "~0.4.2",
+    "grunt-ts": "~1.5.1",
+    "grunt-browserify": "~1.3.0",
+    "mocha": "1.16.x"
+  },
+  "scripts": {
+    "prepublish": "grunt",
+    "test": "mocha"
+  },
+  "main": "./ScreenCalc"
+}
