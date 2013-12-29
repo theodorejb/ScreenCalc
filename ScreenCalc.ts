@@ -106,6 +106,11 @@ class ScreenCalc {
         return this.getPhysicalHeight() * this.getPhysicalWidth();
     }
 
+    /** Returns the total number of pixels in the screen */
+    public getPixelCount(): number {
+        return this.getPixelWidth() * this.getPixelHeight();
+    }
+
     /**
      * Returns the screen's width divided by its height.
      * For example, the ratio of a 1920x1080 display would 

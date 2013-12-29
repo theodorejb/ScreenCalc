@@ -126,6 +126,13 @@ describe('Pixel density calculation', function () {
     });
 });
 
+describe('Pixel count calculation', function () {
+    it('should correctly calculate the total number of pixels in a screen', function () {
+        assert.strictEqual(iphone5.getPixelCount(), 1136 * 640);
+        assert.strictEqual(lumia920.getPixelCount(), 1280 * 768);
+    });
+});
+
 describe('Diagonal size calculation', function () {
     var ipadMiniRetina = new ScreenCalc(2048, 1536);
 

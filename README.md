@@ -18,6 +18,7 @@ var strRatio      = screen.getStringRatio();   // "16:9"
 var pixelDensity  = screen.getPixelDensity();  // 208
 var physicalWidth = screen.getPhysicalWidth(); // 9.2387
 var area          = screen.getArea();          // 48.01
+var pixelCount    = screen.getPixelCount();    // 2073600
 ```
 
 ## Development
