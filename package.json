@@ -1,6 +1,6 @@
 {
   "name": "screencalc",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Calculate data about any display (width, height, ratio, area, density, etc.)",
   "author": {
     "name": "Theodore Brown",
@@ -28,8 +28,6 @@
     "height"
   ],
   "devDependencies": {
-    "typescript": "0.9.x",
-    "browserify": "3.14.x",
     "grunt": "~0.4.2",
     "grunt-ts": "~1.5.1",
     "grunt-browserify": "~1.3.0",
