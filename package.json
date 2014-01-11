@@ -31,7 +31,7 @@
     "grunt": "~0.4.2",
     "grunt-ts": "~1.5.1",
     "grunt-browserify": "~1.3.0",
-    "mocha": "1.16.x"
+    "mocha": "1.17.x"
   },
   "scripts": {
     "prepublish": "grunt",
