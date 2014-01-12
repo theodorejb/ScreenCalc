@@ -1,7 +1,7 @@
 /// <reference path="../ts_definitions/node.d.ts" />
 /// <reference path="../ts_definitions/mocha.d.ts" />
 
-import ScreenCalc = require('../ScreenCalc');
+import ScreenCalc = require('../lib/ScreenCalc');
 import assert = require('assert');
 
 // make some devices

@@ -37,5 +37,5 @@
     "prepublish": "grunt",
     "test": "mocha"
   },
-  "main": "./ScreenCalc"
+  "main": "./lib/ScreenCalc"
 }

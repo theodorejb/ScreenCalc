@@ -1,5 +1,5 @@
 node_modules
-ScreenCalc.js
+lib/*.js
 *.map
 *.d.ts
 !ts_definitions/*.d.ts

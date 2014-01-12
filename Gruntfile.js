@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         ts: {
             dev: {                          // a particular target
-                src: ['*.ts', 'test/*.ts'], // The source typescript files, http://gruntjs.com/configuring-tasks#files
+                src: ['lib/*.ts', 'test/*.ts'], // The source typescript files, http://gruntjs.com/configuring-tasks#files
                 options: {                  // use to override the default options, http://gruntjs.com/configuring-tasks#options
                     module: 'commonjs',     // 'amd' (default) | 'commonjs'
                     sourceMap: true,        // true (default) | false
@@ -16,7 +16,7 @@ module.exports = function (grunt) {
         },
         browserify: {
             dev: {
-                src: ['test/test.js'],
+                src: ['test/*.js'],
                 dest: 'test/browser/testbundle.js'
             }
         }
