@@ -27,6 +27,17 @@ export function physicalHeightFromRatioAndDiagonalSize(ratio: number, diagonalSi
     return Math.sqrt(heightSquared);
 }
 
+/** Get the pixel height of a screen given its ratio and total number of pixels */
+export function pixelHeightFromRatioAndPixelCount(ratio: number, pixelCount: number): number {
+    /*
+     * Formula:    pixelHeight * (ratio * pixelHeight) = pixelCount
+     * Distribute: ratio * (pixelHeight)^3 = pixelCount
+     * Simplify:   pixelHeight = sqrt( pixelCount / ratio )
+     */
+
+    return Math.sqrt(pixelCount / ratio);
+}
+
 /** Returns true if the specified value is a positive integer */
 export function isPositiveInt(val: any): boolean {
     var y = parseInt(val);

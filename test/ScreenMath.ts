@@ -78,3 +78,16 @@ describe('Calculate physical height', function () {
         assert.strictEqual(Math.round(height * 100) / 100, 4.95);
     });
 });
+
+describe('Calculate pixel height', function () {
+    it('should work with ratio and pixel count', function () {
+        var ratio = 16 / 9;
+        var pixelCount = 1920 * 1080;
+
+        var ratio2 = 3 / 4;
+        var pixelCount2 = 1536 * 2048;
+
+        assert.strictEqual(ScreenMath.pixelHeightFromRatioAndPixelCount(ratio, pixelCount), 1080);
+        assert.strictEqual(ScreenMath.pixelHeightFromRatioAndPixelCount(ratio2, pixelCount2), 2048);
+    });
+});
