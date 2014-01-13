@@ -34,7 +34,7 @@
     "mocha": "1.17.x"
   },
   "scripts": {
-    "prepublish": "grunt",
+    "prepublish": "grunt pub",
     "test": "mocha"
   },
   "main": "./lib/ScreenCalc"

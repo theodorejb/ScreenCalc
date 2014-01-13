@@ -4,13 +4,22 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         ts: {
-            dev: {                          // a particular target
-                src: ['lib/*.ts', 'test/*.ts'], // The source typescript files, http://gruntjs.com/configuring-tasks#files
-                options: {                  // use to override the default options, http://gruntjs.com/configuring-tasks#options
-                    module: 'commonjs',     // 'amd' (default) | 'commonjs'
-                    sourceMap: true,        // true (default) | false
-                    declaration: true,      // generate a declaration .d.ts file for every output js file. [true | false (default)]
-                    removeComments: false   // true (default) | false
+            pub: {
+                src: ['lib/*.ts', 'test/*.ts'],
+                options: {
+                    module: 'commonjs',   // 'amd' (default) | 'commonjs'
+                    sourceMap: false,      // true (default) | false
+                    declaration: true,    // generate a declaration .d.ts file for every output js file. [true | false (default)]
+                    removeComments: false // true (default) | false
+                },
+            },
+            dev: {
+                src: ['lib/*.ts', 'test/*.ts'],
+                options: {
+                    module: 'commonjs',
+                    sourceMap: true,
+                    declaration: false,
+                    removeComments: false
                 },
             }
         },
@@ -25,6 +34,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-ts');
     grunt.loadNpmTasks('grunt-browserify');
 
-    // Default tasks
+    // see http://gruntjs.com/creating-tasks
     grunt.registerTask('default', ['ts:dev', 'browserify:dev']);
+    grunt.registerTask('pub', ['ts:pub', 'browserify:dev']);
 };
