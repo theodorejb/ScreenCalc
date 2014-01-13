@@ -34,15 +34,9 @@ describe('Ratio calculation', function () {
     });
 });
 
-describe('String ratio calculation', function () {
+describe('getStringRatio()', function () {
     it('should work with a widescreen TV', function () {
         assert.strictEqual(hdtv.getStringRatio(), "16:9");
-    });
-
-    it('should work with tablets and phones', function () {
-        assert.strictEqual(nexus7.getStringRatio(), "16:10");
-        assert.strictEqual(ipadAir.getStringRatio(), "4:3");
-        assert.strictEqual(lumia920.getStringRatio(), "5:3");
     });
 });
 
@@ -94,13 +88,15 @@ describe('Diagonal size calculation', function () {
     });
 });
 
-describe('Physical width and height calculation', function () {
+describe('Physical width calculation', function () {
     it('should correctly calculate physical width', function () {
         assert.strictEqual(Math.round(ipadAir.getPhysicalWidth() * 100) / 100, 7.76);
         assert.strictEqual(Math.round(asusVivotab.getPhysicalWidth() * 100) / 100, 8.8);
     });
+});
 
-    it('should correctly calculate physical height', function () {
+describe('getPhysicalHeight()', function () {
+    it('should work when the resolution and diagonal size are known', function () {
         assert.strictEqual(Math.round(ipadAir.getPhysicalHeight() * 100) / 100, 5.82);
         assert.strictEqual(Math.round(asusVivotab.getPhysicalHeight() * 100) / 100, 4.95);
     });

@@ -43,7 +43,6 @@ class ScreenCalc {
         return this.diagonalSize;
     }
 
-
     public setDiagonalSize(diagonalSize: number): void {
         if (!ScreenMath.isPositiveNum(diagonalSize)) {
             diagonalSize = 0;
@@ -107,33 +106,7 @@ class ScreenCalc {
      * For example, a 1920x1080 display would return 16:9
      */
     public getStringRatio(): string {
-        // start by finding the greatest common divisor of the pixel width and pixel height
-        var gcd = gcdRecursive(this.pixelWidth, this.pixelHeight);
-
-        // then divide the width and height by the gcd to find the simplest width to height ratio
-        var simpleWidth = this.pixelWidth / gcd;
-        var simpleHeight = this.pixelHeight / gcd;
-
-        // if the simplified width goes evenly into 16, 
-        // and the simplified height is not 3, multiply 
-        // both sides by the quotient so that the ratio is 16:n
-        if (simpleHeight !== 3 && (16 % simpleWidth === 0)) {
-            var quotient = 16 / simpleWidth;
-            simpleWidth = 16;
-            simpleHeight = simpleHeight * quotient;
-        }
-
-        // return as string
-        return simpleWidth.toString() + ':' + simpleHeight.toString();
-
-        /** Returns the greatest common divisor of a and b */
-        function gcdRecursive (a: number, b: number): number {
-            if (!b) {
-                return a;
-            }
-
-            return gcdRecursive(b, a % b);
-        }
+        return ScreenMath.calculateStringRatio(this.getPixelWidth(), this.getPixelHeight());
     }
 
 }

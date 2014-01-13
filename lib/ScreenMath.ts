@@ -2,9 +2,7 @@
  * Contains functions for calculating screen properties
  */
 
-/**
- * Calculate the physical height of a rectangle from its ratio and diagonal size
- */
+/** Calculate the physical height of a rectangle from its ratio and diagonal size */
 export function physicalHeightFromRatioAndDiagonalSize(ratio: number, diagonalSize: number): number {
     /*
      * Pythagorean theorem: base squared + height squared = diagonal size squared.
@@ -36,6 +34,40 @@ export function pixelHeightFromRatioAndPixelCount(ratio: number, pixelCount: num
      */
 
     return Math.sqrt(pixelCount / ratio);
+}
+
+/**
+ * Get the ratio of two numbers as a simplified string.
+ * For example, 1920 and 1080 should return 16:9.
+ */
+export function calculateStringRatio(width: number, height: number): string {
+    // start by finding the greatest common divisor of the pixel width and pixel height
+    var gcd = gcdRecursive(width, height);
+
+    // then divide the width and height by the gcd to find the simplest width to height ratio
+    var simpleWidth = width / gcd;
+    var simpleHeight = height / gcd;
+
+    // if the simplified width goes evenly into 16, 
+    // and the simplified height is not 3, multiply 
+    // both sides by the quotient so that the ratio is 16:n
+    if (simpleHeight !== 3 && (16 % simpleWidth === 0)) {
+        var quotient = 16 / simpleWidth;
+        simpleWidth = 16;
+        simpleHeight = simpleHeight * quotient;
+    }
+
+    // return as string
+    return simpleWidth.toString() + ':' + simpleHeight.toString();
+
+    /** Returns the greatest common divisor of a and b */
+    function gcdRecursive(a: number, b: number): number {
+        if (!b) {
+            return a;
+        }
+
+        return gcdRecursive(b, a % b);
+    }
 }
 
 /** Returns true if the specified value is a positive integer */

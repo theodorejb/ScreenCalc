@@ -91,3 +91,15 @@ describe('Calculate pixel height', function () {
         assert.strictEqual(ScreenMath.pixelHeightFromRatioAndPixelCount(ratio2, pixelCount2), 2048);
     });
 });
+
+describe('Calculate string ratio', function () {
+    it('should work correctly for 16:n displays', function () {
+        assert.strictEqual(ScreenMath.calculateStringRatio(1920, 1080), "16:9");
+        assert.strictEqual(ScreenMath.calculateStringRatio(1920, 1200), "16:10");
+    });
+
+    it('should work with tablet and phone screens', function () {
+        assert.strictEqual(ScreenMath.calculateStringRatio(2048, 1536), "4:3");
+        assert.strictEqual(ScreenMath.calculateStringRatio(1280, 768), "5:3");
+    });
+});
