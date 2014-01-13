@@ -53,13 +53,13 @@ describe('Area calculation', function () {
 
 describe('Pixel density calculation', function () {
     it('should correctly calculate the density of high dpi phones and tablets', function () {
-        assert.strictEqual(ipadAir.getPixelDensity(), 264);
-        assert.strictEqual(iphone5.getPixelDensity(), 326);
-        assert.strictEqual(surfacePro.getPixelDensity(), 208);
+        assert.strictEqual(Math.round(ipadAir.getPixelDensity()), 264);
+        assert.strictEqual(Math.round(iphone5.getPixelDensity()), 326);
+        assert.strictEqual(Math.round(surfacePro.getPixelDensity()), 208);
     });
 
     it('should correctly calcualte the density of large screens', function () {
-        assert.strictEqual(hdtv.getPixelDensity(), 44);
+        assert.strictEqual(Math.round(hdtv.getPixelDensity()), 44);
     });
 });
 

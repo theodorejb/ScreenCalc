@@ -56,8 +56,7 @@ class ScreenCalc {
      * (will be ppi if units are in, or ppcm if units are cm)
      */
     public getPixelDensity(): number {
-        var density = this.pixelWidth / this.getPhysicalWidth();
-        return Math.round(density); // round to nearest integer
+        return this.getPixelWidth() / this.getPhysicalWidth();
     }
 
     /**
