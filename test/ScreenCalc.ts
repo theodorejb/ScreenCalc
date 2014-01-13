@@ -13,63 +13,6 @@ var nexus7 = new ScreenCalc(1920, 1200, 7);
 var asusVivotab = new ScreenCalc(1366, 768, 10.1);
 var lumia920 = new ScreenCalc(1280, 768, 4.5);
 
-describe('isPositiveInt()', function () {
-    it('should return false for 0', function () {
-        assert.strictEqual(ScreenCalc.isPositiveInt(0), false);
-    });
-
-    it('should return false for negative numbers', function () {
-        assert.strictEqual(ScreenCalc.isPositiveInt(-0), false);
-        assert.strictEqual(ScreenCalc.isPositiveInt(-1), false);
-        assert.strictEqual(ScreenCalc.isPositiveInt(-25), false);
-    });
-
-    it('should return false for strings', function () {
-        assert.strictEqual(ScreenCalc.isPositiveInt("string"), false);
-        assert.strictEqual(ScreenCalc.isPositiveInt("1"), false);
-    });
-
-    it('should return false for floats', function () {
-        assert.strictEqual(ScreenCalc.isPositiveInt(1.5), false);
-    });
-
-    it('should return true for positive integers', function () {
-        assert.strictEqual(ScreenCalc.isPositiveInt(1), true);
-        assert.strictEqual(ScreenCalc.isPositiveInt(2.00), true);
-        assert.strictEqual(ScreenCalc.isPositiveInt(77), true);
-        assert.strictEqual(ScreenCalc.isPositiveInt(100000000000), true);
-    });
-});
-
-describe('isPositiveNum()', function () {
-    it('should return false for 0', function () {
-        assert.strictEqual(ScreenCalc.isPositiveNum(0), false);
-    });
-
-    it('should return false for negative numbers', function () {
-        assert.strictEqual(ScreenCalc.isPositiveNum(-0), false);
-        assert.strictEqual(ScreenCalc.isPositiveNum(-1), false);
-        assert.strictEqual(ScreenCalc.isPositiveNum(-25), false);
-    });
-
-    it('should return false for strings', function () {
-        assert.strictEqual(ScreenCalc.isPositiveNum("string"), false);
-        assert.strictEqual(ScreenCalc.isPositiveNum("1"), false);
-        assert.strictEqual(ScreenCalc.isPositiveNum("2.0"), false);
-    });
-
-    it('should return true for positive floats', function () {
-        assert.strictEqual(ScreenCalc.isPositiveNum(1.5), true);
-        assert.strictEqual(ScreenCalc.isPositiveNum(0.1593792), true);
-    });
-
-    it('should return true for positive integers', function () {
-        assert.strictEqual(ScreenCalc.isPositiveNum(1), true);
-        assert.strictEqual(ScreenCalc.isPositiveNum(77), true);
-        assert.strictEqual(ScreenCalc.isPositiveNum(100000000000), true);
-    });
-});
-
 describe('Constructor', function () {
     it('should throw error if pixel width or pixel height are zero', function () {
         assert.throws(function () {

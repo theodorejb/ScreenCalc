@@ -1,6 +1,7 @@
+import ScreenMath = require('./ScreenMath');
+
 /**
- * Contains properties and methods for storing and
- * performing calculations on electronic displays.
+ * Allows screen information to be easily stored and calculated
  */
 class ScreenCalc {
     private pixelWidth: number;
@@ -18,7 +19,7 @@ class ScreenCalc {
     }
 
     public setPixelWidth(pixelWidth: number): void {
-        if (!ScreenCalc.isPositiveInt(pixelWidth)) {
+        if (!ScreenMath.isPositiveInt(pixelWidth)) {
             throw new Error("pixelWidth must be a positive integer");
         } else {
             this.pixelWidth = pixelWidth;
@@ -30,7 +31,7 @@ class ScreenCalc {
     }
 
     public setPixelHeight(pixelHeight: number): void {
-        if (!ScreenCalc.isPositiveInt(pixelHeight)) {
+        if (!ScreenMath.isPositiveInt(pixelHeight)) {
             throw new Error("pixelHeight must be a positive integer");
         } else {
             this.pixelHeight = pixelHeight;
@@ -44,7 +45,7 @@ class ScreenCalc {
 
 
     public setDiagonalSize(diagonalSize: number): void {
-        if (!ScreenCalc.isPositiveNum(diagonalSize)) {
+        if (!ScreenMath.isPositiveNum(diagonalSize)) {
             diagonalSize = 0;
         }
 
@@ -79,26 +80,7 @@ class ScreenCalc {
 
     /** Returns the physical height of the display */
     public getPhysicalHeight(): number {
-        /*
-         * Pythagorean theorem: base squared + height squared = diagonal size squared.
-         * The physical width and height aren't yet known, but the ratio is. The ratio
-         * can be used to define the base in terms of height, and solve for height using 
-         * the diagonal size.
-         * 
-         * height squared + (ratio * height) squared = diagonal squared
-         * Expanded: height squared + ratio squared * height squared = diagonal squared
-         *
-         * Since ratio squared is multiplied by height squared, adding height squared 
-         * simply increases this multiple by 1. Therefore:
-         * (ratio squared + 1) * height squared = diagonal squared
-         */
-
-        var ratioSquared = Math.pow(this.getRatio(), 2);
-        var diagonalSquared = Math.pow(this.diagonalSize, 2);
-        var baseSquared = ratioSquared + 1;
-        var heightSquared = diagonalSquared / baseSquared;
-        var height = Math.sqrt(heightSquared);
-        return height;
+        return ScreenMath.physicalHeightFromRatioAndDiagonalSize(this.getRatio(), this.getDiagonalSize());
     }
 
     /** Returns the area of the display in square units */
@@ -152,21 +134,6 @@ class ScreenCalc {
 
             return gcdRecursive(b, a % b);
         }
-    }
-
-    /** Returns true if the specified value is a positive integer */
-    public static isPositiveInt(val: any): boolean {
-        var y = parseInt(val);
-        if (isNaN(y)) {
-            return false;
-        }
-        
-        return val === y && val.toString() === y.toString() && val > 0;
-    }
-
-    /** Returns true if the value is a positive number */
-    public static isPositiveNum(val: any): boolean {
-        return typeof val === "number" && val > 0;
     }
 
 }
