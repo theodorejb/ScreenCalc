@@ -28,9 +28,9 @@ export function physicalHeightFromRatioAndDiagonalSize(ratio: number, diagonalSi
 /** Get the pixel height of a screen given its ratio and total number of pixels */
 export function pixelHeightFromRatioAndPixelCount(ratio: number, pixelCount: number): number {
     /*
-     * Formula:    pixelHeight * (ratio * pixelHeight) = pixelCount
-     * Distribute: ratio * (pixelHeight)^3 = pixelCount
-     * Simplify:   pixelHeight = sqrt( pixelCount / ratio )
+     * Formula:  pixelHeight * ratio * pixelHeight = pixelCount
+     * Simplify: ratio * (pixelHeight)^2 = pixelCount
+     * Solve:    pixelHeight = sqrt( pixelCount / ratio )
      */
 
     return Math.sqrt(pixelCount / ratio);
