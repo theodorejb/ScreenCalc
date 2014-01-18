@@ -92,6 +92,12 @@ describe('Calculate pixel height', function () {
     });
 });
 
+describe('Calculate ratio', function () {
+    it('should work with pixel height and pixel count', function () {
+        assert.strictEqual(ScreenMath.ratioFromPixelHeightAndPixelCount(1536, 2048 * 1536), 4 / 3);
+    });
+});
+
 describe('Calculate string ratio', function () {
     it('should work correctly for 16:n displays', function () {
         assert.strictEqual(ScreenMath.calculateStringRatio(1920, 1080), "16:9");

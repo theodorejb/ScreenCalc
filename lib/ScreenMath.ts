@@ -36,6 +36,17 @@ export function pixelHeightFromRatioAndPixelCount(ratio: number, pixelCount: num
     return Math.sqrt(pixelCount / ratio);
 }
 
+/** Get the ratio of a screen given its height in pixels and total number of pixels */
+export function ratioFromPixelHeightAndPixelCount(pixelHeight: number, pixelCount: number) {
+    /*
+     * Formula:  pixelHeight * ratio * pixelHeight = pixelCount
+     * Simplify: ratio * (pixelHeight)^2 = pixelCount
+     * Solve:    ratio = pixelCount / (pixelHeight)^2
+     */
+
+    return pixelCount / Math.pow(pixelHeight, 2);
+}
+
 /**
  * Get the ratio of two numbers as a simplified string.
  * For example, 1920 and 1080 should return 16:9.
