@@ -104,8 +104,12 @@ describe('Calculate string ratio', function () {
         assert.strictEqual(ScreenMath.calculateStringRatio(1920, 1200), "16:10");
     });
 
-    it('should work with tablet and phone screens', function () {
+    it('should work with 4:3 and 5:3 screens', function () {
         assert.strictEqual(ScreenMath.calculateStringRatio(2048, 1536), "4:3");
         assert.strictEqual(ScreenMath.calculateStringRatio(1280, 768), "5:3");
+    });
+
+    it('should work for the iPhone 5', function () {
+        assert.strictEqual(ScreenMath.calculateStringRatio(1136, 640), "71:40"); // 15.975:9
     });
 });
