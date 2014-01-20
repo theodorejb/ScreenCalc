@@ -62,20 +62,22 @@ describe('isPositiveNum()', function () {
 });
 
 describe('Calculate physical height', function () {
-    it('should work with an iPad screen', function () {
-        var ratio = 2048 / 1536;
-        var diagonalSize = 9.7;
-        var height = ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, diagonalSize);
+    it('should work with ratio and diagonal size', function () {
+        var ipad = {
+            ratio: 2048 / 1536,
+            diagonalSize: 9.7
+        };
 
-        assert.strictEqual(Math.round(height * 100) / 100, 5.82);
-    });
+        var ipadHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(ipad.ratio, ipad.diagonalSize);
+        assert.strictEqual(ipadHeight, 5.82);
 
-    it('should work with an Asus VivoTab display', function () {
-        var ratio = 1366 / 768;
-        var diagonalSize = 10.1;
-        var height = ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, diagonalSize);
+        var vivotab = {
+            ratio: 1366 / 768,
+            diagonalSize: 10.1
+        };
 
-        assert.strictEqual(Math.round(height * 100) / 100, 4.95);
+        var vivotabHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(vivotab.ratio, vivotab.diagonalSize);
+        assert.strictEqual(Math.round(vivotabHeight * 100) / 100, 4.95);
     });
 });
 
