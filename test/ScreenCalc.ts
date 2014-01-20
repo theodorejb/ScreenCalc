@@ -4,100 +4,296 @@
 import ScreenCalc = require('../lib/ScreenCalc');
 import assert = require('assert');
 
-// make some devices
-var hdtv = new ScreenCalc(1920, 1080, 50);
-var surfacePro = new ScreenCalc(1920, 1080, 10.6);
-var ipadAir = new ScreenCalc(2048, 1536, 9.7);
-var iphone5 = new ScreenCalc(1136, 640, 4.0);
-var nexus7 = new ScreenCalc(1920, 1200, 7);
-var asusVivotab = new ScreenCalc(1366, 768, 10.1);
-var lumia920 = new ScreenCalc(1280, 768, 4.5);
+describe('constructor', function () {
+    it('should allow displays to be constructed without any properties', function () {
+        assert.doesNotThrow(function () {
+            var screen = new ScreenCalc();
+        });
+    });
 
-describe('Constructor', function () {
-    it('should throw error if pixel width or pixel height are zero', function () {
-        assert.throws(function () {
-            var badDisplay = new ScreenCalc(0, 1080);
-        }, Error);
-        assert.throws(function () {
-            var badDisplay = new ScreenCalc(1920, 0);
-        }, Error);
+    it('should allow screens to be created with multiple properties', function () {
+        assert.doesNotThrow(function () {
+            var screen = new ScreenCalc({
+                pixelWidth: 1920,
+                pixelHeight: 1080,
+                diagonalSize: 10.6
+            });
+        });
+    });
+
+    it('should throw an error if conflicting data is provided');
+});
+
+describe('setData()', function () {
+    it('should reset unpassed properties if "reset" is set to true', function () {
+        var screen = new ScreenCalc({
+            pixelCount: 1000
+        });
+
+        screen.setData({
+            pixelWidth: 1024
+        }, true);
+
+        assert.strictEqual(screen.getPixelCount(), null);
+        assert.strictEqual(screen.getPixelWidth(), 1024);
+    });
+
+    it('should update dependent properties if they are already set');
+});
+
+describe('getPixelWidth()', function () {
+    it('should work with pixel count and ratio', function () {
+        var screen = new ScreenCalc({
+            ratio: 1920 / 1080,
+            pixelCount: 1920 * 1080
+        });
+
+        assert.strictEqual(screen.getPixelWidth(), 1920);
+    });
+
+    it('should work with physical width and density', function () {
+        var ipadAir = new ScreenCalc({
+            physicalWidth: 7.76,
+            pixelDensity: 264
+        });
+
+        assert.strictEqual(Math.floor(ipadAir.getPixelWidth()), 2048); // 2048.64
     });
 });
 
-describe('Ratio calculation', function () {
-    it('should work with a widescreen TV', function () {
-        assert.strictEqual(Math.round(hdtv.getRatio() * 100) / 100, 1.78);
+describe('getPixelHeight()', function () {
+    it('should work with pixel count and ratio', function () {
+        var screen = new ScreenCalc({
+            ratio: 1920 / 1080,
+            pixelCount: 1920 * 1080
+        });
+
+        assert.strictEqual(screen.getPixelHeight(), 1080);
     });
 
-    it('should work with an iPad', function () {
-        assert.strictEqual(Math.round(ipadAir.getRatio() * 100) / 100, 1.33);
-    });
-});
+    it('should work with physical height and density', function () {
+        var ipadAir = new ScreenCalc({
+            physicalHeight: 5.82,
+            pixelDensity: 264
+        });
 
-describe('getStringRatio()', function () {
-    it('should work with a widescreen TV', function () {
-        assert.strictEqual(hdtv.getStringRatio(), "16:9");
-    });
-});
-
-describe('Area calculation', function () {
-    // expected iPad and Asus VivoTab numbers taken from http://www.curi.us/1571-lying-microsoft-advertising
-    
-    it('should work with tablets', function () {
-        assert.strictEqual(Math.round(ipadAir.getArea() * 100) / 100, 45.16);
-        assert.strictEqual(Math.round(asusVivotab.getArea() * 10) / 10, 43.6);
-        assert.strictEqual(Math.round(surfacePro.getArea() * 100) / 100, 48.01);
+        assert.strictEqual(Math.round(ipadAir.getPixelHeight()), 1536);
     });
 
-});
+    it('should work with ratio, diagonal size, and density', function () {
+        var ipadAir = new ScreenCalc({
+            pixelDensity: 264,
+            ratio: 4 / 3,
+            diagonalSize: 9.7
+        });
 
-describe('Pixel density calculation', function () {
-    it('should correctly calculate the density of high dpi phones and tablets', function () {
-        assert.strictEqual(Math.round(ipadAir.getPixelDensity()), 264);
-        assert.strictEqual(Math.round(iphone5.getPixelDensity()), 326);
-        assert.strictEqual(Math.round(surfacePro.getPixelDensity()), 208);
-    });
-
-    it('should correctly calcualte the density of large screens', function () {
-        assert.strictEqual(Math.round(hdtv.getPixelDensity()), 44);
+        assert.strictEqual(Math.round(ipadAir.getPixelHeight()), 1536);
     });
 });
 
-describe('Pixel count calculation', function () {
-    it('should correctly calculate the total number of pixels in a screen', function () {
-        assert.strictEqual(iphone5.getPixelCount(), 1136 * 640);
-        assert.strictEqual(lumia920.getPixelCount(), 1280 * 768);
-    });
-});
+describe('getPhysicalWidth()', function () {
+    it('should work with resolution and diagonal size', function () {
+        var ipadAir = new ScreenCalc({
+            pixelWidth: 2048,
+            pixelHeight: 1536,
+            diagonalSize: 9.7
+        });
 
-describe('Diagonal size calculation', function () {
-    var ipadMiniRetina = new ScreenCalc(2048, 1536);
-
-    it("should return zero if diagonal size and density aren't specified", function () {
-        assert.strictEqual(ipadMiniRetina.getDiagonalSize(), 0);
+        assert.strictEqual(ipadAir.getPhysicalWidth(), 7.76);
     });
 
-    it('should correctly calculate the diagonal size when pixel density is set', function () {
-        ipadMiniRetina.setPixelDensity(326);
-        assert.strictEqual(Math.round(ipadMiniRetina.getDiagonalSize() * 10) / 10, 7.9);
-    });
+    it('should work with diagonal size and ratio', function () {
+        var asusVivotab = new ScreenCalc({
+            ratio: 16 / 9,
+            diagonalSize: 10.1
+        });
 
-    it('should change diagonal size to zero if set to NaN', function () {
-        var impossibleDisplay = new ScreenCalc(1000, 1000, NaN);
-        assert.strictEqual(impossibleDisplay.getDiagonalSize(), 0);
-    });
-});
-
-describe('Physical width calculation', function () {
-    it('should correctly calculate physical width', function () {
-        assert.strictEqual(Math.round(ipadAir.getPhysicalWidth() * 100) / 100, 7.76);
         assert.strictEqual(Math.round(asusVivotab.getPhysicalWidth() * 100) / 100, 8.8);
     });
 });
 
 describe('getPhysicalHeight()', function () {
     it('should work when the resolution and diagonal size are known', function () {
-        assert.strictEqual(Math.round(ipadAir.getPhysicalHeight() * 100) / 100, 5.82);
+        var ipadAir = new ScreenCalc({
+            pixelWidth: 2048,
+            pixelHeight: 1536,
+            diagonalSize: 9.7
+        });
+
+        assert.strictEqual(ipadAir.getPhysicalHeight(), 5.82);
+    });
+
+    it('should work when the ratio and physical width are known', function () {
+        var asusVivotab = new ScreenCalc({
+            ratio: 16 / 9,
+            physicalWidth: 8.8
+        });
+
         assert.strictEqual(Math.round(asusVivotab.getPhysicalHeight() * 100) / 100, 4.95);
+    });
+});
+
+describe('getRatio()', function () {
+    it('should work with ratio', function () {
+        var screen = new ScreenCalc({ ratio: 16 / 10 });
+        assert.strictEqual(screen.getRatio(), 16 / 10);
+    });
+
+    it('should work with physical width and physical height', function () {
+        var screen = new ScreenCalc({ physicalWidth: 16, physicalHeight: 10 });
+        assert.strictEqual(screen.getRatio(), 16 / 10);
+    });
+
+    it('should work with pixel width and pixel height', function () {
+        var screen = new ScreenCalc({ pixelWidth: 1600, pixelHeight: 1200 });
+        assert.strictEqual(screen.getRatio(), 4 / 3);
+    });
+
+    it('should work with pixel width, physical height, and pixel density', function () {
+        var ipadAir = new ScreenCalc({
+            pixelWidth: 2048,
+            physicalHeight: 5.82,
+            pixelDensity: 1536 / 5.82
+        });
+
+        assert.strictEqual(Math.round(ipadAir.getRatio() * 100) / 100, Math.round(4 / 3 * 100) / 100);
+    });
+
+    it('should work with pixel height and total number of pixels', function () {
+        var screen = new ScreenCalc({
+            pixelHeight: 1200,
+            pixelCount: 1600 * 1200
+        });
+
+        assert.strictEqual(screen.getRatio(), 4 / 3);
+    });
+});
+
+describe('getStringRatio()', function () {
+    it('should work with pixel width and pixel height', function () {
+        var hdtv = new ScreenCalc({ pixelWidth: 1920, pixelHeight: 1080 });
+        assert.strictEqual(hdtv.getStringRatio(), "16:9");
+    });
+});
+
+describe('getArea()', function () {
+    // expected iPad and Asus VivoTab numbers taken from http://www.curi.us/1571-lying-microsoft-advertising
+
+    it('should work with resolution and diagonal size', function () {
+        var ipadAir = new ScreenCalc({
+            pixelWidth: 2048,
+            pixelHeight: 1536,
+            diagonalSize: 9.7
+        });
+
+        assert.strictEqual(Math.round(ipadAir.getArea() * 100) / 100, 45.16);
+    });
+
+    it('should work with ratio, pixel width, and diagonal size', function () {
+        var asusVivotab = new ScreenCalc({
+            pixelWidth: 1366,
+            ratio: 16 / 9,
+            diagonalSize: 10.1
+        });
+
+        assert.strictEqual(Math.round(asusVivotab.getArea() * 10) / 10, 43.6);
+    });
+
+    it('should work with physical width, pixel height, and density', function () {
+        var surfacePro = new ScreenCalc({
+            pixelHeight: 1080,
+            pixelDensity: 208,
+            physicalWidth: 9.2387
+        });
+
+        assert.strictEqual(Math.round(surfacePro.getArea()), 48);
+    });
+});
+
+describe('getPixelDensity()', function () {
+    it('should work with pixel width and physical width', function () {
+        var lumia920 = new ScreenCalc({
+            pixelWidth: 1280,
+            physicalWidth: 3.8587,
+        });
+
+        assert.strictEqual(Math.round(lumia920.getPixelDensity() * 10) / 10, 331.7);
+    });
+
+    it('should work with pixel height and physical height', function () {
+        var lumia920 = new ScreenCalc({
+            pixelHeight: 768,
+            physicalHeight: 2.3152
+        });
+
+        assert.strictEqual(Math.round(lumia920.getPixelDensity() * 10) / 10, 331.7);
+    });
+
+    it('should work with resolution and diagonal size', function () {
+        var iphone5 = new ScreenCalc({
+            pixelWidth: 1136,
+            pixelHeight: 640,
+            diagonalSize: 4.0
+        });
+
+        assert.strictEqual(Math.round(iphone5.getPixelDensity()), 326);
+    });
+
+    it('should work with pixel width, physical height, and ratio', function () {
+        var nexus7 = new ScreenCalc({
+            pixelWidth: 1920,
+            physicalHeight: 3.71,
+            ratio: 1920 / 1200
+        });
+
+        assert.strictEqual(Math.round(nexus7.getPixelDensity() * 100) / 100, 323.45);
+    });
+});
+
+describe('getPixelCount()', function () {
+    it('should work with pixel width and pixel height', function () {
+        var screen = new ScreenCalc({
+            pixelWidth: 640,
+            pixelHeight: 480
+        });
+
+        assert.strictEqual(screen.getPixelCount(), 640 * 480);
+    });
+
+    it('should work with pixel width and ratio', function () {
+        var screen = new ScreenCalc({
+            pixelWidth: 640,
+            ratio: 4 / 3
+        });
+
+        assert.strictEqual(screen.getPixelCount(), 640 * 480);
+    });
+
+    it('should work with pixel count', function () {
+        var screen = new ScreenCalc({ pixelCount: 1000000 });
+        assert.strictEqual(screen.getPixelCount(), 1000000);
+    });
+
+    it('should return null if insufficient data', function () {
+        var screen = new ScreenCalc({ pixelWidth: 1024 });
+        assert.strictEqual(screen.getPixelCount(), null);
+    });
+});
+
+describe('getDiagonalSize()', function () {
+    var ipadMiniRetina = new ScreenCalc({ pixelWidth: 2048, pixelHeight: 1536 });
+
+    it("should return null if diagonal size and density aren't specified", function () {
+        assert.strictEqual(ipadMiniRetina.getDiagonalSize(), null);
+    });
+
+    it('should correctly calculate the diagonal size when pixel density is set', function () {
+        ipadMiniRetina.setData({ pixelDensity: 326 });
+        assert.strictEqual(Math.round(ipadMiniRetina.getDiagonalSize() * 10) / 10, 7.9);
+    });
+
+    it('should change diagonal size to zero if set to NaN', function () {
+        var impossibleDisplay = new ScreenCalc({ pixelWidth: 1000, pixelHeight: 1000, diagonalSize: NaN });
+        assert.strictEqual(impossibleDisplay.getDiagonalSize(), 0);
     });
 });
