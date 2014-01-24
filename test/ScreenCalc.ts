@@ -20,8 +20,6 @@ describe('constructor', function () {
             });
         });
     });
-
-    it('should throw an error if conflicting data is provided');
 });
 
 describe('setData()', function () {
@@ -39,6 +37,7 @@ describe('setData()', function () {
     });
 
     it('should update dependent properties if they are already set');
+    it('should throw an error if conflicting data is provided');
 });
 
 describe('getPixelWidth()', function () {
