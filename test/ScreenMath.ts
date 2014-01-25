@@ -100,18 +100,32 @@ describe('Calculate ratio', function () {
     });
 });
 
-describe('Calculate string ratio', function () {
-    it('should work correctly for 16:n displays', function () {
-        assert.strictEqual(ScreenMath.calculateStringRatio(1920, 1080), "16:9");
-        assert.strictEqual(ScreenMath.calculateStringRatio(1920, 1200), "16:10");
+describe('Calculate simplest fraction', function () {
+    it('should work with common screens with exact ratios', function () {
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1920 / 1080), [16, 9]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1920 / 1200), [8, 5]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(2048 / 1536), [4, 3]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1280 / 768), [5, 3]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(2880 / 900), [16, 5]);
     });
 
-    it('should work with 4:3 and 5:3 screens', function () {
-        assert.strictEqual(ScreenMath.calculateStringRatio(2048, 1536), "4:3");
-        assert.strictEqual(ScreenMath.calculateStringRatio(1280, 768), "5:3");
+    it('should work with reciprocals of common screen ratios', function () {
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1080 / 1920), [9, 16]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1200 / 1920), [5, 8]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1536 / 2048), [3, 4]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(768 / 1280), [3, 5]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(900 / 2880), [5, 16]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(768 / 1366), [9, 16]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(640 / 1136), [9, 16]);
     });
 
-    it('should work for the iPhone 5', function () {
-        assert.strictEqual(ScreenMath.calculateStringRatio(1136, 640), "71:40"); // 15.975:9
+    it('should round to simple ratios by default', function () {
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1366 / 768), [16, 9]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1136 / 640), [16, 9]);
+    });
+
+    it('should allow default precision to be overridden', function () {
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1366 / 768, 1.0e-5), [683, 384]);
+        assert.deepEqual(ScreenMath.calculateSimplestFraction(1136 / 640, 1.0e-3), [71, 40]);
     });
 });

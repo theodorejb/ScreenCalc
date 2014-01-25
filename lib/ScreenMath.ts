@@ -81,6 +81,52 @@ export function calculateStringRatio(width: number, height: number): string {
     }
 }
 
+/**
+ * Calculates the simplest fraction for a floating point number using continued fractions 
+ * (based on http://en.wikipedia.org/wiki/Continued_fraction#Infinite_continued_fractions)
+ * Returns an array containing the numerator and denominator of the simplified fraction.
+ * @param f The number to calculate the simplest fraction for
+ * @param epsilon (optional) a number between -1 and 0 which determines precision (closer to zero = greater precision)
+ */
+export function calculateSimplestFraction(f: number, epsilon = 5.0e-3): number[] {
+
+    var a = Math.floor(f); // integer part of number
+
+    // convergents
+    var h: number; // numerator
+    var k: number; // denominator
+
+    // the two previous convergents are necessary to 
+    // incorporate new terms into a rational approximation
+    var h1: number, h2: number, k1: number, k2: number;
+
+    // convergents for first 2 terms are 0/1 and 1/0
+    h2 = 0; k2 = 1;
+    h1 = 1; k1 = 0;
+
+    h = a;
+    k = 1;
+
+    while (f - a > epsilon * k * k) {
+        f = 1 / (f - a);
+        a = Math.floor(f);
+
+        h2 = h1;
+        h1 = h;
+        k2 = k1;
+        k1 = k;
+
+        // successive convergents are given by the formula:
+        // h(n) = a(n)h(n-1) + h(n-2)
+        // k(n)   a(n)k(n-1) + k(n-2)
+
+        h = a * h1 + h2;
+        k = a * k1 + k2;
+    }
+
+    return [h, k];
+}
+
 /** Returns true if the specified value is a positive integer */
 export function isPositiveInt(val: any): boolean {
     var y = parseInt(val);
