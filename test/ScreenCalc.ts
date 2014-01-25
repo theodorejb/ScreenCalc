@@ -166,6 +166,23 @@ describe('getRatio()', function () {
 
         assert.strictEqual(screen.getRatio(), 4 / 3);
     });
+
+    it('should work with diagonal size and physical width or height', function () {
+        var screen = new ScreenCalc({
+            diagonalSize: 20,
+            physicalWidth: 16
+            // (physical height: 12)
+        });
+
+        var portraitScreen = new ScreenCalc({
+            diagonalSize: 30,
+            physicalHeight: 24
+            // (physical width: 18)
+        });
+
+        assert.strictEqual(screen.getRatio(), 4 / 3);
+        assert.strictEqual(portraitScreen.getRatio(), 3 / 4);
+    });
 });
 
 describe('getStringRatio()', function () {

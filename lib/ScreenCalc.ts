@@ -218,7 +218,9 @@ class ScreenCalc {
             return { width: this.pixelWidth, height: this.pixelHeight };
         } else if (this.physicalWidth !== null && this.physicalHeight !== null) {
             return { width: this.physicalWidth, height: this.physicalHeight };
-        } else if (this.pixelDensity !== null) {
+        }
+
+        if (this.pixelDensity !== null) {
             if (this.pixelWidth !== null && this.physicalHeight !== null) {
                 var physicalWidth = this.pixelWidth / this.pixelDensity;
                 return { width: physicalWidth, height: this.physicalHeight };
@@ -226,13 +228,30 @@ class ScreenCalc {
                 var physicalHeight = this.pixelHeight / this.pixelDensity;
                 return { width: this.physicalWidth, height: physicalHeight };
             }
-        } else if (this.pixelCount !== null) {
+        }
+
+        if (this.pixelCount !== null) {
             if (this.pixelHeight !== null) {
                 var ratio = ScreenMath.ratioFromPixelHeightAndPixelCount(this.pixelHeight, this.pixelCount);
                 return { height: this.pixelHeight, width: this.pixelHeight * ratio };
             } else if (this.pixelWidth !== null) {
                 var pixelHeight = this.pixelCount / this.pixelWidth;
                 return { height: pixelHeight, width: this.pixelWidth };
+            }
+        }
+
+        if (this.diagonalSize !== null) {
+            // Pythagorean theorem: width squared + height squared = diagaonl squared
+            var diagonalSq = Math.pow(this.diagonalSize, 2);
+
+            if (this.physicalWidth !== null) {
+                var widthSq = Math.pow(this.physicalWidth, 2);
+                var heightSq = diagonalSq - widthSq;
+                return { width: this.physicalWidth, height: Math.sqrt(heightSq) };
+            } else if (this.physicalHeight !== null) {
+                var heightSq = Math.pow(this.physicalHeight, 2);
+                var widthSq = diagonalSq - heightSq;
+                return { width: Math.sqrt(widthSq), height: this.physicalHeight };
             }
         }
 
