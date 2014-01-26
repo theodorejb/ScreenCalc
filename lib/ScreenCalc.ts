@@ -15,6 +15,9 @@ class ScreenCalc {
     private physicalHeight: number = null;
     private diagonalSize: number = null;
 
+    /** Magic number that results in "expected" ratio for common screen resolutions */
+    private static DEFAULT_RATIO_PRECISION = 5.0e-3;
+
     constructor(properties?: ScreenConstructor) {
         if (typeof properties !== "undefined") {
             this.setData(properties);
@@ -194,15 +197,59 @@ class ScreenCalc {
     }
 
     /**
-     * Attempts to calculate/return the screen's ratio as a simplified string
-     * (e.g. a 1920x1080 display would return "16:9").
-     * Returns null if insufficient data.
+     * Returns an object with 'width' and 'height' properties containing a simplified ratio for the display.
+     * Additionally, a 'difference' property is included which contains the difference between the simplified 
+     * and original ratio (0 if the simplified ratio is exact). For example, a 1366x768 display would (by default) 
+     * return { width: 16, height: 9, difference: -0.0008680555555555802 }.
+     * Returns null if there is not enough data to calculate the ratio.
+     * @param precision (optional) pass a number between -1 and 0 for precision (defaults to 5.0e-3). 
+     * The closer the number is to zero the greater the precision. For example, if 1.0e-6 is passed,
+     * the return value for a 1366x768 display would be { width: 683, height: 384, difference: 0 }.
      */
-    public getStringRatio(): string {
-        var wAndH = this.calculateWidthAndHeight();
+    public getSimpleRatio(precision: number = ScreenCalc.DEFAULT_RATIO_PRECISION) {
+        var ratio = this.getRatio();
 
-        if (wAndH !== null) {
-            return ScreenMath.calculateStringRatio(wAndH.width, wAndH.height)
+        if (ratio !== null) {
+            var fractionArr = ScreenMath.calculateSimplestFraction(ratio, precision);
+            var simpleWidth = fractionArr[0];
+            var simpleHeight = fractionArr[1];
+
+            // 8:5 ratios should be converted to 16:10
+            if (simpleWidth / simpleHeight === 16 / 10) {
+                simpleWidth = 16;
+                simpleHeight = 10;
+            } else if (simpleWidth / simpleHeight === 10 / 16) {
+                simpleWidth = 10;
+                simpleHeight = 16;
+            }
+
+            var difference = (simpleWidth / simpleHeight) - ratio;
+            return { width: simpleWidth, height: simpleHeight, difference: difference };
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns the same simplified ratio as getSimpleRatio(), but as a string in the format width:height.
+     * For example, a 1920x1080 display would return "16:9". If the ratio is imprecise, a tilde (~) character 
+     * is prepended to the string (i.e. "~16x9").
+     * Returns null if there is not enough data to calculate the ratio.
+     * @param precision (optional) pass a number between -1 and 0 for precision (defaults to 5.0e-3). 
+     * The closer the number is to zero the greater the precision. For example, if 1.0e-6 is passed,
+     * the return value for a 1366x768 display would be the precise ratio "683:384".
+     */
+    public getStringRatio(precision: number = ScreenCalc.DEFAULT_RATIO_PRECISION): string {
+        var ratio = this.getSimpleRatio(precision);
+
+        if (ratio !== null) {
+            var strRatio = ratio.width.toString() + ':' + ratio.height.toString();
+            
+            if (ratio.difference !== 0) {
+                strRatio = "~" + strRatio;
+            }
+
+            return strRatio;
         }
 
         return null;

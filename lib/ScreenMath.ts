@@ -48,40 +48,6 @@ export function ratioFromPixelHeightAndPixelCount(pixelHeight: number, pixelCoun
 }
 
 /**
- * Get the ratio of two numbers as a simplified string.
- * For example, 1920 and 1080 should return 16:9.
- */
-export function calculateStringRatio(width: number, height: number): string {
-    // start by finding the greatest common divisor of the pixel width and pixel height
-    var gcd = gcdRecursive(width, height);
-
-    // then divide the width and height by the gcd to find the simplest width to height ratio
-    var simpleWidth = width / gcd;
-    var simpleHeight = height / gcd;
-
-    // if the simplified width goes evenly into 16, 
-    // and the simplified height is not 3, multiply 
-    // both sides by the quotient so that the ratio is 16:n
-    if (simpleHeight !== 3 && (16 % simpleWidth === 0)) {
-        var quotient = 16 / simpleWidth;
-        simpleWidth = 16;
-        simpleHeight = simpleHeight * quotient;
-    }
-
-    // return as string
-    return simpleWidth.toString() + ':' + simpleHeight.toString();
-
-    /** Returns the greatest common divisor of a and b */
-    function gcdRecursive(a: number, b: number): number {
-        if (!b) {
-            return a;
-        }
-
-        return gcdRecursive(b, a % b);
-    }
-}
-
-/**
  * Calculates the simplest fraction for a floating point number using continued fractions 
  * (based on http://en.wikipedia.org/wiki/Continued_fraction#Infinite_continued_fractions)
  * Returns an array containing the numerator and denominator of the simplified fraction.

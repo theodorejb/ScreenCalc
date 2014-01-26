@@ -185,10 +185,65 @@ describe('getRatio()', function () {
     });
 });
 
+describe('getSimpleRatio()', function () {
+    it('should work whenever ratio is available', function () {
+        var display = new ScreenCalc({
+            ratio: 5 / 9
+        });
+        assert.deepEqual(display.getSimpleRatio(), { width: 5, height: 9, difference: 0 });
+
+        var monitor = new ScreenCalc({ pixelWidth: 1920, pixelHeight: 1080 });
+        assert.deepEqual(monitor.getSimpleRatio(), { width: 16, height: 9, difference: 0 });
+    });
+
+    it('should return null if ratio is not available', function () {
+        var screen = new ScreenCalc({ pixelWidth: 1024, physicalHeight: 15 });
+        assert.strictEqual(screen.getSimpleRatio(), null);
+    });
+
+    it('should convert 8:5 ratios to 16:10', function () {
+        var screen = new ScreenCalc({
+            ratio: 16 / 10
+        });
+
+        var portraitScreen = new ScreenCalc({
+            ratio: 10 / 16
+        });
+
+        assert.deepEqual(screen.getSimpleRatio(), { width: 16, height: 10, difference: 0 });
+        assert.deepEqual(portraitScreen.getSimpleRatio(), { width: 10, height: 16, difference: 0 });
+    });
+
+    it('should allow precision to be changed', function () {
+        var screen = new ScreenCalc({ pixelWidth: 1136, pixelHeight: 640 });
+        assert.deepEqual(screen.getSimpleRatio(1.0e-3), { width: 71, height: 40, difference: 0 });
+    });
+
+    it('should include non-zero difference for imprecise ratios', function () {
+        var screen = new ScreenCalc({ pixelWidth: 1136, pixelHeight: 640 });
+        assert.strictEqual(screen.getSimpleRatio().difference, 0.002777777777777768);
+    });
+});
+
 describe('getStringRatio()', function () {
-    it('should work with pixel width and pixel height', function () {
-        var hdtv = new ScreenCalc({ pixelWidth: 1920, pixelHeight: 1080 });
-        assert.strictEqual(hdtv.getStringRatio(), "16:9");
+    it('should return ratio in width:height format', function () {
+        var screen = new ScreenCalc({ physicalWidth: 20, physicalHeight: 10 });
+        assert.strictEqual(screen.getStringRatio(), "2:1");
+    });
+
+    it('should include a tilde if ratio is not exact', function () {
+        var impreciseScreen = new ScreenCalc({ pixelWidth: 1366, pixelHeight: 768 });
+        assert.strictEqual(impreciseScreen.getStringRatio(), "~16:9");
+    });
+
+    it('should allow precision to be changed', function () {
+        var screen = new ScreenCalc({ ratio: 1366 / 768 });
+        assert.strictEqual(screen.getStringRatio(1.0e-5), "683:384");
+    });
+
+    it('should return null if insufficient data', function () {
+        var screen = new ScreenCalc();
+        assert.strictEqual(screen.getStringRatio(), null);
     });
 });
 
