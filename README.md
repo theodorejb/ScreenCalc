@@ -1,6 +1,6 @@
 # ScreenCalc
 
-ScreenCalc is a powerful utility which makes it easy to answer almost any kind of question about the properties of a display. For example:
+ScreenCalc is a powerful JavaScript module which makes it easy to answer almost any kind of question about the properties of a display. For example:
 
 *What is the resolution of a 16:9 screen with 1,440,000 pixels?*
 
@@ -14,7 +14,7 @@ var w = screen.getPixelWidth();  // 1600
 var h = screen.getPixelHeight(); // 900
 ```
 
-*What are the physical dimensions and dpi of a 50-inch 1080p television screen?*
+*What are the physical dimensions and ppi of a 50-inch 1080p television screen?*
 
 ```javascript
 var screen = new ScreenCalc({
@@ -25,7 +25,7 @@ var screen = new ScreenCalc({
 
 var w = screen.getPhysicalWidth();  // 43.579
 var h = screen.getPhysicalHeight(); // 24.513
-var d = screen.getPixelDensity();   // 44
+var d = screen.getPixelDensity();   // 44.058
 ```
 
 *What resolution is needed for a 27-inch 16:9 display with 300ppi?*
@@ -37,8 +37,8 @@ var screen = new ScreenCalc({
     ratio:        16/9
 });
 
-var w = screen.getPixelWidth(); // 7060
-var h = screen.getPixelHeight;  // 3971
+var w = screen.getPixelWidth();  // 7059.762
+var h = screen.getPixelHeight(); // 3971.116
 ```
 
 ## Usage
@@ -54,12 +54,12 @@ var ScreenCalc = require('screencalc');
 
 var screen = new ScreenCalc({
     ratio:          16/10,
-    pixelDensity:   300,
+    pixelDensity:   225,
     physicalHeight: 4.5
 });
 ```
 
-Full property list:
+### Full list of settable properties
 
 1. ratio
 2. pixelWidth
@@ -70,9 +70,7 @@ Full property list:
 7. physicalHeight
 8. diagonalSize
 
-Each of these properties has a corresponding getPropertyName() method (e.g. getPixelHeight()). In addition, there is a getStringRatio() method which returns the ratio in a more readable form (e.g. "16:9" instead of 1.778 (16 divided by 9)).
-
-Individual getter methods will return `null` if there is not enough data to perform the calculation:
+Each of these properties has a corresponding *getPropertyName()* method (e.g. `getPixelHeight()`). Individual methods will return `null` if there is not enough data to perform the calculation:
 
 ```javascript
 var noPixels = new ScreenCalc({
@@ -81,11 +79,39 @@ var noPixels = new ScreenCalc({
 }).getPixelCount(); // null
 ```
 
-Note: ScreenCalc intentionally avoids rounding any calculated values, so if imprecise data is provided the result could also be inexact. When working with imprecise data, be sure to round results as necessary.
+**Note:** ScreenCalc intentionally avoids rounding any values calculated by these methods (including pixel width, pixel height, and pixel count). When working with imprecise data, be sure to round results as necessary.
+
+### Simplified ratio calculation 
+
+In addition to the getter methods corresponding to each settable property, ScreenCalc comes with two additional methods for calculating simplified ratios: `getSimpleRatio()` and `getStringRatio()`.
+
+`getSimpleRatio()` returns an object with `width` and `height` properties containing the simplified ratio. Additionally, a `difference` property stores the difference between the simplified ratio and the exact ratio of the screen. The difference will be zero if the simplified ratio is precise.
+
+```javascript
+var laptop = new ScreenCalc({
+	pixelWidth:  1366,
+    pixelHeight: 768
+});
+
+var ratio = laptop.getSimpleRatio(); // { width: 16, height: 9, difference: -0.0008680555555555802 }
+```
+
+`getStringRatio()` returns the same simplified ratio as `getSimpleRatio()`, but as a string in the format *width:height*. If the simplified ratio is not exact, a tilde will be prepended to the string:
+
+```javascript
+var strRatio = laptop.getStringRatio(); // "~16:9"
+```
+
+Both `getSimpleRatio()` and `getStringRatio()` accept an optional parameter to override the default precision. This parameter should be a number between -1 and 0, where numbers closer to zero increase the precision. If not specified, the precision will default to `5.0e-3`.
+
+```javascript
+var exactRatio    = laptop.getSimpleRatio(1.0e-5); // { width: 683, height: 384, difference: 0 }
+var exactStrRatio = laptop.getStringRatio(1.0e-5); // "683:384"
+```
 
 ## What's missing?
 
-1. Dependent properties are not yet updated when calling setData() on instantiated screens.
+1. Dependent properties are not yet updated when calling `setData()` on instantiated screens.
 2. Constructor does not check for conflicts between specified properties.
 
 ## Development
