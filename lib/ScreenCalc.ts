@@ -79,15 +79,21 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getPixelHeight(): number {
-        if (this.pixelWidth !== null && this.ratio !== null) {
-            return this.pixelWidth / this.ratio;
-        } else if (this.pixelCount !== null && this.ratio !== null) {
-            return ScreenMath.pixelHeightFromRatioAndPixelCount(this.ratio, this.pixelCount);
-        } else if (this.physicalHeight !== null && this.pixelDensity !== null) {
+        var ratio = this.getRatio();
+
+        if (ratio !== null) {
+            if (this.pixelWidth !== null) {
+                return this.pixelWidth / ratio;
+            } else if (this.pixelCount !== null) {
+                return ScreenMath.pixelHeightFromRatioAndPixelCount(ratio, this.pixelCount);
+            } else if (this.diagonalSize !== null && this.pixelDensity !== null) {
+                var physicalHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.diagonalSize);
+                return physicalHeight * this.pixelDensity;
+            }
+        }
+
+        if (this.physicalHeight !== null && this.pixelDensity !== null) {
             return this.physicalHeight * this.pixelDensity;
-        } else if (this.diagonalSize !== null && this.ratio !== null && this.pixelDensity !== null) {
-            var physicalHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(this.ratio, this.diagonalSize);
-            return physicalHeight * this.pixelDensity;
         }
 
         return this.pixelHeight;
@@ -98,8 +104,8 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getPixelWidth(): number {
-        if (this.getPixelHeight() !== null && this.ratio !== null) {
-            return this.getPixelHeight() * this.ratio;
+        if (this.getPixelHeight() !== null && this.getRatio() !== null) {
+            return this.getPixelHeight() * this.getRatio();
         } else if (this.physicalWidth !== null && this.pixelDensity !== null) {
             return this.physicalWidth * this.pixelDensity;
         }

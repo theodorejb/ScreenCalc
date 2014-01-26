@@ -88,6 +88,17 @@ describe('getPixelHeight()', function () {
 
         assert.strictEqual(Math.round(ipadAir.getPixelHeight()), 1536);
     });
+
+    it('should work with physical width, density, and diagonal size', function () {
+        var netbook = new ScreenCalc({
+            // 1024x600
+            physicalWidth: 7.678914306769556,
+            pixelDensity: 133.3521848391074,
+            diagonalSize: 8.9
+        });
+
+        assert.strictEqual(netbook.getPixelHeight(), 600);
+    });
 });
 
 describe('getPhysicalWidth()', function () {
