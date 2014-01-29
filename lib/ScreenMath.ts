@@ -56,6 +56,10 @@ export function ratioFromPixelHeightAndPixelCount(pixelHeight: number, pixelCoun
  */
 export function calculateSimplestFraction(f: number, epsilon = 5.0e-3): number[] {
 
+    if (!(epsilon > 0 && epsilon < 1)) {
+        throw new Error('Epsilon set to ' + epsilon.toString() + '. Must be between 0 and 1.');
+    }
+
     var a = Math.floor(f); // integer part of number
 
     // convergents

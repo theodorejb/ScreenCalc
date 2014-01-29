@@ -128,4 +128,19 @@ describe('Calculate simplest fraction', function () {
         assert.deepEqual(ScreenMath.calculateSimplestFraction(1366 / 768, 1.0e-5), [683, 384]);
         assert.deepEqual(ScreenMath.calculateSimplestFraction(1136 / 640, 1.0e-3), [71, 40]);
     });
+
+    it('should throw error if epsilon is invalid', function () {
+        // epsilon must be between 0 and 1 (exclusive)
+        assert.throws(function () {
+            ScreenMath.calculateSimplestFraction(16 / 9, 0);
+        }, Error);
+
+        assert.throws(function () {
+            ScreenMath.calculateSimplestFraction(16 / 9, 1);
+        }, Error);
+
+        assert.throws(function () {
+            ScreenMath.calculateSimplestFraction(16 / 9, -0.1);
+        }, Error);
+    });
 });
