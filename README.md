@@ -102,7 +102,7 @@ var ratio = laptop.getSimpleRatio(); // { width: 16, height: 9, difference: -0.0
 var strRatio = laptop.getStringRatio(); // "~16:9"
 ```
 
-Both `getSimpleRatio()` and `getStringRatio()` accept an optional parameter to override the default precision. This parameter should be a number between -1 and 0, where numbers closer to zero increase the precision. If not specified, the precision will default to `5.0e-3`.
+Both `getSimpleRatio()` and `getStringRatio()` accept an optional parameter to override the default precision. This parameter should be a number between 0 and 1, where values closer to zero increase the precision. If not specified, the precision will default to `5.0e-3`.
 
 ```javascript
 var exactRatio    = laptop.getSimpleRatio(1.0e-5); // { width: 683, height: 384, difference: 0 }

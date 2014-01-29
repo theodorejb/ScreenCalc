@@ -208,7 +208,7 @@ class ScreenCalc {
      * and original ratio (0 if the simplified ratio is exact). For example, a 1366x768 display would (by default) 
      * return { width: 16, height: 9, difference: -0.0008680555555555802 }.
      * Returns null if there is not enough data to calculate the ratio.
-     * @param precision (optional) pass a number between -1 and 0 for precision (defaults to 5.0e-3). 
+     * @param precision (optional) pass a number between 0 and 1 for precision (defaults to 5.0e-3). 
      * The closer the number is to zero the greater the precision. For example, if 1.0e-6 is passed,
      * the return value for a 1366x768 display would be { width: 683, height: 384, difference: 0 }.
      */
@@ -241,7 +241,7 @@ class ScreenCalc {
      * For example, a 1920x1080 display would return "16:9". If the ratio is imprecise, a tilde (~) character 
      * is prepended to the string (i.e. "~16x9").
      * Returns null if there is not enough data to calculate the ratio.
-     * @param precision (optional) pass a number between -1 and 0 for precision (defaults to 5.0e-3). 
+     * @param precision (optional) pass a number between 0 and 1 for precision (defaults to 5.0e-3). 
      * The closer the number is to zero the greater the precision. For example, if 1.0e-6 is passed,
      * the return value for a 1366x768 display would be the precise ratio "683:384".
      */
