@@ -1,5 +1,5 @@
 ts_definitions
-tscommand.tmp.txt
+.tscache
 *.map
 *.ts
 !*.d.ts

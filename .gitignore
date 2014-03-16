@@ -3,4 +3,4 @@ lib/*.js
 *.map
 *.d.ts
 !ts_definitions/*.d.ts
-tscommand.tmp.txt
+.tscache

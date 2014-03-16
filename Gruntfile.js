@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                     sourceMap: true,
                     declaration: false,
                     removeComments: false
-                },
+                }
             }
         },
         browserify: {
