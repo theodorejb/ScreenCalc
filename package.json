@@ -31,8 +31,8 @@
   ],
   "devDependencies": {
     "grunt": "~0.4.4",
-    "grunt-ts": "^1.10.0",
-    "grunt-browserify": "^2.0.7",
+    "grunt-ts": "^1.11.0",
+    "grunt-browserify": "^2.0.8",
     "mocha": "^1.18.2"
   },
   "scripts": {
