@@ -1,5 +1,7 @@
 # ScreenCalc
 
+[![NPM version](https://badge.fury.io/js/screencalc.svg)](http://badge.fury.io/js/screencalc)
+
 ScreenCalc is a powerful JavaScript module which makes it easy to answer almost any kind of question about the properties of a display. For example:
 
 *What is the resolution of a 16:9 screen with 1,440,000 pixels?*
