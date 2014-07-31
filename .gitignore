@@ -1,6 +1,7 @@
-node_modules
+node_modules/
 lib/*.js
+test/**/*.js
 *.map
 *.d.ts
 !ts_definitions/*.d.ts
-.tscache
+.tscache/
