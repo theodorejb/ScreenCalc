@@ -1,5 +1,6 @@
-ts_definitions
-.tscache
-*.map
+.tscache/
+test/
+ts_definitions/
+Gruntfile.js
 *.ts
 !*.d.ts
