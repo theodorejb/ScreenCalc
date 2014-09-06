@@ -3,5 +3,6 @@ lib/*.js
 test/**/*.js
 *.map
 *.d.ts
+!lib/ScreenProperties.d.ts
 !ts_definitions/*.d.ts
 .tscache/

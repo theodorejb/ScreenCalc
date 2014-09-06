@@ -1,4 +1,4 @@
-/// <reference path="../ts_definitions/ScreenCalcTypes.d.ts" />
+/// <reference path="ScreenProperties.d.ts" />
 
 import ScreenMath = require('./ScreenMath');
 
@@ -18,7 +18,7 @@ class ScreenCalc {
     /** Magic number that results in "expected" ratio for common screen resolutions */
     private static DEFAULT_RATIO_PRECISION = 5.0e-3;
 
-    constructor(properties?: ScreenConstructor) {
+    constructor(properties?: ScreenProperties) {
         if (typeof properties !== "undefined") {
             this.setData(properties);
         }
@@ -28,7 +28,7 @@ class ScreenCalc {
      * Set data for one or more properties.
      * If 'replace' param is set to true, properties that aren't passed will be set to null.
      */
-    public setData(properties: ScreenConstructor, replace: boolean = false) {
+    public setData(properties: ScreenProperties, replace: boolean = false) {
         if (replace) {
             this.pixelWidth = null;
             this.pixelHeight = null;

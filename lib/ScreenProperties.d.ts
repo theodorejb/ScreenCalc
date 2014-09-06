@@ -1,6 +1,7 @@
-// provides typings for external interfaces
-
-interface ScreenConstructor {
+/**
+ * Defines the properties available to a screen
+ */
+interface ScreenProperties {
     /** The screen's width in pixels */
     pixelWidth?: number;
 
