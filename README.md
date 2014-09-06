@@ -1,6 +1,6 @@
 # ScreenCalc
 
-[![NPM version](https://img.shields.io/npm/v/screencalc.svg)](https://www.npmjs.org/package/screencalc) [![Total downloads](https://img.shields.io/npm/dm/screencalc.svg)](https://www.npmjs.org/package/screencalc)
+[![NPM version](https://img.shields.io/npm/v/screencalc.svg)](https://www.npmjs.org/package/screencalc) [![Total downloads](https://img.shields.io/npm/dm/screencalc.svg)](https://www.npmjs.org/package/screencalc) [![Build Status](https://travis-ci.org/theodorejb/ScreenCalc.svg?branch=master)](https://travis-ci.org/theodorejb/ScreenCalc)
 
 ScreenCalc is a powerful JavaScript module which makes it easy to answer almost any kind of question about the properties of a display. For example:
 
