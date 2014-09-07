@@ -369,10 +369,10 @@ class ScreenCalc {
 
     private setDiagonalSize(diagonalSize: number): void {
         if (!ScreenMath.isPositiveNum(diagonalSize)) {
-            diagonalSize = 0;
+            throw new Error('diagonalSize must be a positive number');
+        } else {
+            this.diagonalSize = diagonalSize;
         }
-
-        this.diagonalSize = diagonalSize;
     }
 
 }

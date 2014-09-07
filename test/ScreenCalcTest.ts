@@ -373,9 +373,4 @@ describe('getDiagonalSize()', function () {
         ipadMiniRetina.setData({ pixelDensity: 326 });
         assert.strictEqual(Math.round(ipadMiniRetina.getDiagonalSize() * 10) / 10, 7.9);
     });
-
-    it('should change diagonal size to zero if set to NaN', function () {
-        var impossibleDisplay = new ScreenCalc({ pixelWidth: 1000, pixelHeight: 1000, diagonalSize: NaN });
-        assert.strictEqual(impossibleDisplay.getDiagonalSize(), 0);
-    });
 });
