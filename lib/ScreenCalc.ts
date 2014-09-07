@@ -6,22 +6,21 @@ import ScreenMath = require('./ScreenMath');
  * Allows screen information to be easily stored and calculated
  */
 class ScreenCalc {
-    private pixelWidth: number = null;
-    private pixelHeight: number = null;
-    private pixelCount: number = null;
-    private pixelDensity: number = null;
-    private ratio: number = null;
-    private physicalWidth: number = null;
-    private physicalHeight: number = null;
-    private diagonalSize: number = null;
+    private pixelWidth:     number;
+    private pixelHeight:    number;
+    private pixelCount:     number;
+    private pixelDensity:   number;
+    private ratio:          number;
+    private physicalWidth:  number;
+    private physicalHeight: number;
+    private diagonalSize:   number;
 
     /** Magic number that results in "expected" ratio for common screen resolutions */
     private static DEFAULT_RATIO_PRECISION = 5.0e-3;
 
-    constructor(properties?: ScreenProperties) {
-        if (typeof properties !== "undefined") {
-            this.setData(properties);
-        }
+    constructor(properties: ScreenProperties = {}) {
+        // properties should be initialized to null
+        this.setData(properties, true);
     }
 
     /**
@@ -30,48 +29,79 @@ class ScreenCalc {
      */
     public setData(properties: ScreenProperties, replace: boolean = false) {
         if (replace) {
-            this.pixelWidth = null;
-            this.pixelHeight = null;
-            this.pixelCount = null;
-            this.pixelDensity = null;
-            this.ratio = null;
-            this.physicalWidth = null;
+            this.pixelWidth     = null;
+            this.pixelHeight    = null;
+            this.pixelCount     = null;
+            this.pixelDensity   = null;
+            this.ratio          = null;
+            this.physicalWidth  = null;
             this.physicalHeight = null;
-            this.diagonalSize = null;
+            this.diagonalSize   = null;
         }
 
         if (typeof properties.pixelWidth !== "undefined") {
-            this.setPixelWidth(properties.pixelWidth);
+            if (!ScreenMath.isPositiveInt(properties.pixelWidth)) {
+                throw new Error("pixelWidth must be a positive integer");
+            } else {
+                this.pixelWidth = properties.pixelWidth;
+            }
         }
 
         if (typeof properties.pixelHeight !== "undefined") {
-            this.setPixelHeight(properties.pixelHeight);
+            if (!ScreenMath.isPositiveInt(properties.pixelHeight)) {
+                throw new Error("pixelHeight must be a positive integer");
+            } else {
+                this.pixelHeight = properties.pixelHeight;
+            }
         }
 
         if (typeof properties.pixelCount !== "undefined") {
-            this.setPixelCount(properties.pixelCount);
+            if (!ScreenMath.isPositiveInt(properties.pixelCount)) {
+                throw new Error('pixelCount must be a positive integer');
+            } else {
+                this.pixelCount = properties.pixelCount;
+            }
         }
 
         if (typeof properties.pixelDensity !== "undefined") {
-            this.setPixelDensity(properties.pixelDensity);
+            if (!ScreenMath.isPositiveNum(properties.pixelDensity)) {
+                throw new Error('pixelDensity must be a positive number');
+            } else {
+                this.pixelDensity = properties.pixelDensity;
+            }
         }
 
         if (typeof properties.ratio !== "undefined") {
-            this.setRatio(properties.ratio);
+            if (!ScreenMath.isPositiveNum(properties.ratio)) {
+                throw new Error('ratio must be a positive number');
+            } else {
+                this.ratio = properties.ratio;
+            }
         }
 
         if (typeof properties.physicalWidth !== "undefined") {
-            this.setPhysicalWidth(properties.physicalWidth);
+            if (!ScreenMath.isPositiveNum(properties.physicalWidth)) {
+                throw new Error('physicalWidth must be a positive number');
+            } else {
+                this.physicalWidth = properties.physicalWidth;
+            }
         }
 
         if (typeof properties.physicalHeight !== "undefined") {
-            this.setPhysicalHeight(properties.physicalHeight);
+            if (!ScreenMath.isPositiveNum(properties.physicalHeight)) {
+                throw new Error('physicalHeight must be a positive number');
+            } else {
+                this.physicalHeight = properties.physicalHeight;
+            }
         }
 
         if (typeof properties.diagonalSize !== "undefined") {
-            this.setDiagonalSize(properties.diagonalSize);
+            if (!ScreenMath.isPositiveNum(properties.diagonalSize)) {
+                throw new Error('diagonalSize must be a positive number');
+            } else {
+                this.diagonalSize = properties.diagonalSize;
+            }
         }
-
     }
 
     /**
@@ -148,7 +178,6 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getDiagonalSize(): number {
-
         if (this.getPhysicalHeight() !== null && this.getPhysicalWidth() !== null) {
             var diagonalSq = Math.pow(this.getPhysicalHeight(), 2) + Math.pow(this.getPhysicalWidth(), 2);
             return Math.sqrt(diagonalSq);
@@ -191,7 +220,6 @@ class ScreenCalc {
      * be 1.78 when rounded to two decimal places.
      */
     public getRatio(): number {
-
         // try to calculate the ratio from width and height if possible
         var wAndH = this.calculateWidthAndHeight();
 
@@ -266,7 +294,6 @@ class ScreenCalc {
      * Returns an object with height and width properties, or null if insufficient data.
      */
     private calculateWidthAndHeight() {
-
         if (this.pixelWidth !== null && this.pixelHeight !== null) {
             return { width: this.pixelWidth, height: this.pixelHeight };
         } else if (this.physicalWidth !== null && this.physicalHeight !== null) {
@@ -309,70 +336,6 @@ class ScreenCalc {
         }
 
         return null;
-    }
-
-    private setPixelWidth(pixelWidth: number): void {
-        if (!ScreenMath.isPositiveInt(pixelWidth)) {
-            throw new Error("pixelWidth must be a positive integer");
-        } else {
-            this.pixelWidth = pixelWidth;
-        }
-    }
-
-    private setPixelHeight(pixelHeight: number): void {
-        if (!ScreenMath.isPositiveInt(pixelHeight)) {
-            throw new Error("pixelHeight must be a positive integer");
-        } else {
-            this.pixelHeight = pixelHeight;
-        }
-    }
-
-    private setPixelCount(pixels: number): void {
-        if (!ScreenMath.isPositiveInt(pixels)) {
-            throw new Error('pixelCount must be a positive integer');
-        } else {
-            this.pixelCount = pixels;
-        }
-    }
-
-    private setPixelDensity(density: number): void {
-        if (!ScreenMath.isPositiveNum(density)) {
-            throw new Error('pixelDensity must be a positive number');
-        } else {
-            this.pixelDensity = density;
-        }
-    }
-
-    private setRatio(ratio: number): void {
-        if (!ScreenMath.isPositiveNum(ratio)) {
-            throw new Error('ratio must be a positive number');
-        } else {
-            this.ratio = ratio;
-        }
-    }
-
-    private setPhysicalWidth(width: number): void {
-        if (!ScreenMath.isPositiveNum(width)) {
-            throw new Error('physicalWidth must be a positive number');
-        } else {
-            this.physicalWidth = width;
-        }
-    }
-
-    private setPhysicalHeight(height: number): void {
-        if (!ScreenMath.isPositiveNum(height)) {
-            throw new Error('physicalHeight must be a positive number');
-        } else {
-            this.physicalHeight = height;
-        }
-    }
-
-    private setDiagonalSize(diagonalSize: number): void {
-        if (!ScreenMath.isPositiveNum(diagonalSize)) {
-            throw new Error('diagonalSize must be a positive number');
-        } else {
-            this.diagonalSize = diagonalSize;
-        }
     }
 
 }
