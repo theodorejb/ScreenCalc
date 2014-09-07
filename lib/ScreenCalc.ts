@@ -284,7 +284,7 @@ class ScreenCalc {
         }
 
         if (this.d.diagonalSize !== null) {
-            // Pythagorean theorem: width squared + height squared = diagaonl squared
+            // Pythagorean theorem: width squared + height squared = diagonal squared
             var diagonalSq = Math.pow(this.d.diagonalSize, 2);
 
             if (this.d.physicalWidth !== null) {
