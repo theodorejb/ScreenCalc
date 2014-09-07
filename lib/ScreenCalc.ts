@@ -200,9 +200,19 @@ class ScreenCalc {
         return this.pixelDensity;
     }
 
-    /** Returns the area of the display in square units */
+    /**
+     * Returns the area of the display in square units, or null if there
+     * is insufficient data to calculate the physical width and height.
+     */
     public getArea(): number {
-        return this.getPhysicalHeight() * this.getPhysicalWidth();
+        var w = this.getPhysicalWidth();
+        var h = this.getPhysicalHeight();
+
+        if (w === null || h === null) {
+            return null;
+        } else {
+            return w * h;
+        }
     }
 
     /** Returns the total number of pixels in the screen */

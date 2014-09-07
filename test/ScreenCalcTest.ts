@@ -290,6 +290,15 @@ describe('getArea()', function () {
 
         assert.strictEqual(Math.round(surfacePro.getArea()), 48);
     });
+
+    it('should return null if there is insufficient data', function () {
+        var limitedData = new ScreenCalc({
+            pixelWidth: 1024,
+            pixelHeight: 768
+        });
+
+        assert.strictEqual(limitedData.getArea(), null);
+    });
 });
 
 describe('getPixelDensity()', function () {
