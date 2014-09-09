@@ -63,6 +63,10 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getPixelHeight(): number {
+        if (this.d.physicalHeight !== null && this.d.pixelDensity !== null) {
+            return this.d.physicalHeight * this.d.pixelDensity;
+        }
+
         var ratio = this.getRatio();
 
         if (ratio !== null) {
@@ -76,10 +80,6 @@ class ScreenCalc {
             }
         }
 
-        if (this.d.physicalHeight !== null && this.d.pixelDensity !== null) {
-            return this.d.physicalHeight * this.d.pixelDensity;
-        }
-
         return this.d.pixelHeight;
     }
 
@@ -88,10 +88,15 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getPixelWidth(): number {
-        if (this.getPixelHeight() !== null && this.getRatio() !== null) {
-            return this.getPixelHeight() * this.getRatio();
-        } else if (this.d.physicalWidth !== null && this.d.pixelDensity !== null) {
+        if (this.d.physicalWidth !== null && this.d.pixelDensity !== null) {
             return this.d.physicalWidth * this.d.pixelDensity;
+        } else {
+            var ratio = this.getRatio();
+            var pixelHeight = this.getPixelHeight();
+
+            if (pixelHeight !== null && ratio !== null) {
+                return pixelHeight * ratio;
+            }
         }
 
         return this.d.pixelWidth;
@@ -134,8 +139,13 @@ class ScreenCalc {
     public getPhysicalWidth(): number {
         if (this.d.pixelDensity !== null && this.d.pixelWidth !== null) {
             return this.d.pixelWidth / this.d.pixelDensity;
-        } else if (this.getPhysicalHeight() !== null && this.getRatio() !== null) {
-            return this.getPhysicalHeight() * this.getRatio();
+        } else {
+            var height = this.getPhysicalHeight();
+            var ratio = this.getRatio();
+
+            if (height !== null && ratio !== null) {
+                return height * ratio;
+            }
         }
 
         return this.d.physicalWidth;
@@ -146,8 +156,11 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getDiagonalSize(): number {
-        if (this.getPhysicalHeight() !== null && this.getPhysicalWidth() !== null) {
-            var diagonalSq = Math.pow(this.getPhysicalHeight(), 2) + Math.pow(this.getPhysicalWidth(), 2);
+        var w = this.getPhysicalWidth();
+        var h = this.getPhysicalHeight();
+
+        if (h !== null && w !== null) {
+            var diagonalSq = (h * h) + (w * w);
             return Math.sqrt(diagonalSq);
         }
 
@@ -159,10 +172,18 @@ class ScreenCalc {
      * (will be ppi if units are in, or ppcm if units are cm)
      */
     public getPixelDensity(): number {
-        if (this.getPixelHeight() !== null && this.getPhysicalHeight() !== null) {
-            return this.getPixelHeight() / this.getPhysicalHeight();
-        } else if (this.getPixelWidth() !== null && this.getPhysicalWidth() !== null) {
-            return this.getPixelWidth() / this.getPhysicalWidth();
+        var pixelHeight = this.getPixelHeight();
+        var physicalHeight = this.getPhysicalHeight();
+
+        if (pixelHeight !== null && physicalHeight !== null) {
+            return pixelHeight / physicalHeight;
+        } else {
+            var pixelWidth = this.getPixelWidth();
+            var physicalWidth = this.getPhysicalWidth();
+
+            if (pixelWidth !== null && physicalWidth !== null) {
+                return pixelWidth / physicalWidth;
+            }
         }
 
         return this.d.pixelDensity;
@@ -185,8 +206,11 @@ class ScreenCalc {
 
     /** Returns the total number of pixels in the screen */
     public getPixelCount(): number {
-        if (this.getPixelWidth() !== null && this.getPixelHeight() !== null) {
-            return this.getPixelWidth() * this.getPixelHeight();
+        var w = this.getPixelWidth();
+        var h = this.getPixelHeight();
+
+        if (w !== null && h !== null) {
+            return w * h;
         }
 
         return this.d.pixelCount;
