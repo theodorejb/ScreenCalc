@@ -43,6 +43,18 @@ var w = screen.getPixelWidth();  // 7059.762
 var h = screen.getPixelHeight(); // 3971.116
 ```
 
+*What is the aspect ratio and diagonal size of a screen with an area of 8437.5 square centimeters and a width of 112.5 centimeters?*
+
+```javascript
+var screen = new ScreenCalc({
+    area: 8437.5,
+    physicalWidth: 112.5
+});
+
+var r = screen.getStringRatio();  // 3:2
+var d = screen.getDiagonalSize(); // 135.2
+```
+
 ## Usage
 
 Install using npm. For client-side use, check out [browserify](http://browserify.org/).
@@ -70,7 +82,8 @@ var screen = new ScreenCalc({
 5. pixelDensity
 6. physicalWidth
 7. physicalHeight
-8. diagonalSize
+8. area
+9. diagonalSize
 
 Each of these properties has a corresponding *getPropertyName()* method (e.g. `getPixelHeight()`). Individual methods will return `null` if there is not enough data to perform the calculation:
 
