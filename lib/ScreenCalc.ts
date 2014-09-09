@@ -9,9 +9,6 @@ class ScreenCalc {
     /** Holds the provided display data */
     private d: ScreenProperties;
 
-    /** Magic number that results in "expected" ratio for common screen resolutions */
-    private static DEFAULT_RATIO_PRECISION = 5.0e-3;
-
     constructor(properties: ScreenProperties = {}) {
         // properties should be initialized to null
         this.d = {
@@ -242,7 +239,7 @@ class ScreenCalc {
      * The closer the number is to zero the greater the precision. For example, if 1.0e-6 is passed,
      * the return value for a 1366x768 display would be { width: 683, height: 384, difference: 0 }.
      */
-    public getSimpleRatio(precision: number = ScreenCalc.DEFAULT_RATIO_PRECISION) {
+    public getSimpleRatio(precision?: number) {
         var ratio = this.getRatio();
 
         if (ratio !== null) {
@@ -275,7 +272,7 @@ class ScreenCalc {
      * The closer the number is to zero the greater the precision. For example, if 1.0e-6 is passed,
      * the return value for a 1366x768 display would be the precise ratio "683:384".
      */
-    public getStringRatio(precision: number = ScreenCalc.DEFAULT_RATIO_PRECISION): string {
+    public getStringRatio(precision?: number): string {
         var ratio = this.getSimpleRatio(precision);
 
         if (ratio !== null) {

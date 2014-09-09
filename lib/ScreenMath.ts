@@ -52,10 +52,11 @@ export function ratioFromPixelHeightAndPixelCount(pixelHeight: number, pixelCoun
  * (based on http://en.wikipedia.org/wiki/Continued_fraction#Infinite_continued_fractions)
  * Returns an array containing the numerator and denominator of the simplified fraction.
  * @param f The number to calculate the simplest fraction for
- * @param epsilon (optional) a number between 0 and 1 which determines precision (closer to zero = greater precision)
+ * @param epsilon A number between 0 and 1 which determines precision. Values closer to
+ *                zero increase precision. Defaults to a magic number which returns the
+ *                "expected" ratio for common screen resolutions.
  */
 export function calculateSimplestFraction(f: number, epsilon = 5.0e-3): number[] {
-
     if (!(epsilon > 0 && epsilon < 1)) {
         throw new Error('Epsilon set to ' + epsilon.toString() + '. Must be between 0 and 1.');
     }
