@@ -22,6 +22,7 @@ class ScreenCalc {
             ratio:          null,
             physicalWidth:  null,
             physicalHeight: null,
+            area:           null,
             diagonalSize:   null,
         };
 
@@ -101,12 +102,26 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getPhysicalHeight(): number {
-        if (this.getRatio() !== null && this.d.physicalWidth !== null) {
-            return this.d.physicalWidth / this.getRatio();
-        } else if (this.d.pixelDensity !== null && this.d.pixelHeight !== null) {
+        if (this.d.pixelDensity !== null && this.d.pixelHeight !== null) {
             return this.d.pixelHeight / this.d.pixelDensity;
-        } else if (this.getRatio() !== null && this.d.diagonalSize !== null) {
-            return ScreenMath.physicalHeightFromRatioAndDiagonalSize(this.getRatio(), this.d.diagonalSize);
+        } else {
+            var ratio = this.getRatio();
+
+            if (ratio !== null) {
+                if (this.d.physicalWidth !== null) {
+                    return this.d.physicalWidth / ratio;
+                } else if (this.d.diagonalSize !== null) {
+                    return ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
+                } else if (this.d.area !== null) {
+                    /* 
+                     * width = ratio * height
+                     * area = ratio * height * height
+                     * height^2 = area / ratio
+                     */
+
+                    return Math.sqrt(this.d.area / ratio);
+                }
+            }
         }
 
         return this.d.physicalHeight;
@@ -161,11 +176,11 @@ class ScreenCalc {
         var w = this.getPhysicalWidth();
         var h = this.getPhysicalHeight();
 
-        if (w === null || h === null) {
-            return null;
-        } else {
+        if (w !== null && h !== null) {
             return w * h;
         }
+
+        return this.d.area;
     }
 
     /** Returns the total number of pixels in the screen */
@@ -295,6 +310,14 @@ class ScreenCalc {
                 var heightSq = Math.pow(this.d.physicalHeight, 2);
                 var widthSq = diagonalSq - heightSq;
                 return { width: Math.sqrt(widthSq), height: this.d.physicalHeight };
+            }
+        }
+
+        if (this.d.area !== null) {
+            if (this.d.physicalWidth !== null) {
+                return { width: this.d.physicalWidth, height: this.d.area / this.d.physicalWidth };
+            } else if (this.d.physicalHeight !== null) {
+                return { width: this.d.area / this.d.physicalHeight, height: this.d.physicalHeight };
             }
         }
 

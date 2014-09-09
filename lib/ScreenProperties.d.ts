@@ -26,6 +26,9 @@ interface ScreenProperties {
     /** The physical height of the screen */
     physicalHeight?: number;
 
+    /** The physical area of the screen in square units */
+    area?: number;
+
     /** The diagonal size of the screen */
     diagonalSize?: number;
 }

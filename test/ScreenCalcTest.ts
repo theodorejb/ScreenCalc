@@ -120,6 +120,15 @@ describe('getPhysicalWidth()', function () {
 
         assert.strictEqual(Math.round(asusVivotab.getPhysicalWidth() * 100) / 100, 8.8);
     });
+
+    it('should work when the area and and ratio are known', function () {
+        var screen = new ScreenCalc({
+            area: 40 * 30,
+            ratio: 4 / 3
+        });
+
+        assert.strictEqual(screen.getPhysicalWidth(), 40);
+    });
 });
 
 describe('getPhysicalHeight()', function () {
@@ -140,6 +149,16 @@ describe('getPhysicalHeight()', function () {
         });
 
         assert.strictEqual(Math.round(asusVivotab.getPhysicalHeight() * 100) / 100, 4.95);
+    });
+
+    it('should work when the area and and resolution are known', function () {
+        var screen = new ScreenCalc({
+            area: 40 * 30,
+            pixelWidth: 1024,
+            pixelHeight: 768
+        });
+
+        assert.strictEqual(screen.getPhysicalHeight(), 30);
     });
 });
 
@@ -193,6 +212,23 @@ describe('getRatio()', function () {
 
         assert.strictEqual(screen.getRatio(), 4 / 3);
         assert.strictEqual(portraitScreen.getRatio(), 3 / 4);
+    });
+
+    it('should work with area and physical width or height', function () {
+        var screen = new ScreenCalc({
+            area: 600,
+            physicalWidth: 30
+            // (physical height: 20)
+        });
+
+        var portraitScreen = new ScreenCalc({
+            area: 750,
+            physicalHeight: 30
+            // (physical width: 25)
+        });
+
+        assert.strictEqual(screen.getRatio(), 3 / 2);
+        assert.strictEqual(portraitScreen.getRatio(), 25 / 30);
     });
 });
 
@@ -259,7 +295,13 @@ describe('getStringRatio()', function () {
 });
 
 describe('getArea()', function () {
-    // expected iPad and Asus VivoTab numbers taken from http://www.curi.us/1571-lying-microsoft-advertising
+    it('should work with area', function () {
+        var screen = new ScreenCalc({ area: 12345 });
+        assert.strictEqual(screen.getArea(), 12345);
+    });
+
+    // expected iPad and Asus VivoTab numbers taken from
+    // http://www.curi.us/1571-lying-microsoft-advertising
 
     it('should work with resolution and diagonal size', function () {
         var ipadAir = new ScreenCalc({
@@ -338,6 +380,16 @@ describe('getPixelDensity()', function () {
         });
 
         assert.strictEqual(Math.round(nexus7.getPixelDensity() * 100) / 100, 323.45);
+    });
+
+    it('should work with area, ratio, and pixel width', function () {
+        var lumia920 = new ScreenCalc({
+            area: 3.8587 * 2.3152,
+            ratio: 1280 / 768,
+            pixelWidth: 1280
+        });
+
+        assert.strictEqual(Math.round(lumia920.getPixelDensity() * 10) / 10, 331.7);
     });
 });
 
