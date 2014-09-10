@@ -333,6 +333,16 @@ describe('getArea()', function () {
         assert.strictEqual(Math.round(surfacePro.getArea()), 48);
     });
 
+    it('should work with pixel width, density, and ratio', function () {
+        var ipadAir = new ScreenCalc({
+            pixelWidth: 2048,
+            pixelDensity: 263.92,
+            ratio: 2048 / 1536,
+        });
+
+        assert.strictEqual(Math.round(ipadAir.getArea() * 100) / 100, 45.16);
+    });
+
     it('should return null if there is insufficient data', function () {
         var limitedData = new ScreenCalc({
             pixelWidth: 1024,

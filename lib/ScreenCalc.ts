@@ -104,8 +104,10 @@ class ScreenCalc {
      * Returns null if there is insufficient data.
      */
     public getPhysicalHeight(): number {
-        if (this.d.pixelDensity !== null && this.d.pixelHeight !== null) {
-            return this.d.pixelHeight / this.d.pixelDensity;
+        var pixelHeight = this.getPixelHeight();
+
+        if (pixelHeight !== null && this.d.pixelDensity !== null) {
+            return pixelHeight / this.d.pixelDensity;
         } else {
             var ratio = this.getRatio();
 
