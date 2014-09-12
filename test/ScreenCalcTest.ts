@@ -36,6 +36,12 @@ describe('setData()', function () {
         assert.strictEqual(screen.getPixelWidth(), 1024);
     });
 
+    it('should not allow invalid properties to be set', function () {
+        assert.throws(function () {
+            new ScreenCalc({ invalidProperty: 123 });
+        }, Error);
+    });
+
     it('should update dependent properties if they are already set');
     it('should throw an error if conflicting data is provided');
 });
