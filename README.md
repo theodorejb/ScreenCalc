@@ -136,8 +136,7 @@ ScreenCalc is written in TypeScript. After editing files, run `grunt` to compile
 ## Author
 
 Theodore Brown  
-[@theodorejb](https://twitter.com/theodorejb)  
-<http://designedbytheo.com>
+<http://theodorejb.me>
 
 ## License
 
