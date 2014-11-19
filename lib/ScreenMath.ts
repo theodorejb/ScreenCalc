@@ -56,7 +56,7 @@ export function ratioFromPixelHeightAndPixelCount(pixelHeight: number, pixelCoun
  *                zero increase precision. Defaults to a magic number which returns the
  *                "expected" ratio for common screen resolutions.
  */
-export function calculateSimplestFraction(f: number, epsilon = 5.0e-3): number[] {
+export function calculateSimplestFraction(f: number, epsilon = 5.0e-3): [number, number] {
     if (!(epsilon > 0 && epsilon < 1)) {
         throw new Error('Epsilon set to ' + epsilon.toString() + '. Must be between 0 and 1.');
     }
