@@ -96,7 +96,7 @@ var noPixels = new ScreenCalc({
 
 **Note:** ScreenCalc intentionally avoids rounding any values calculated by these methods (including pixel width, pixel height, and pixel count). When working with imprecise data, be sure to round results as necessary.
 
-### Simplified ratio calculation 
+### Simplified ratio calculation
 
 In addition to the getter methods corresponding to each settable property, ScreenCalc comes with two additional methods for calculating simplified ratios: `getSimpleRatio()` and `getStringRatio()`.
 
@@ -123,11 +123,6 @@ Both `getSimpleRatio()` and `getStringRatio()` accept an optional parameter to o
 var exactRatio    = laptop.getSimpleRatio(1.0e-5); // { width: 683, height: 384, difference: 0 }
 var exactStrRatio = laptop.getStringRatio(1.0e-5); // "683:384"
 ```
-
-## What's missing?
-
-1. Dependent properties are not yet updated when calling `setData()` on instantiated screens.
-2. Constructor does not check for conflicts between specified properties.
 
 ## Development
 

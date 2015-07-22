@@ -21,35 +21,24 @@ class ScreenCalc {
             diagonalSize:   null,
         };
 
-        this.setData(properties);
-    }
-
-    /**
-     * Set data for one or more properties.
-     * If 'replace' param is set to true, properties that aren't passed will be set to null.
-     */
-    public setData(properties: ScreenProperties, replace: boolean = false) {
-        if (replace) {
-            for (var prop in this.d) {
-                this.d[prop] = null;
-            }
-        }
-
         for (var property in properties) {
-            if (typeof this.d[property] !== "undefined") {
-                // The property is valid. If the property is pixelWidth, pixelHeight, or pixelCount,
-                // make sure it's a positive int. Otherwise just make sure it's a positive number.
-
-                if (["pixelWidth", "pixelHeight", "pixelCount"].indexOf(property) !== -1 && !ScreenMath.isPositiveInt(properties[property])) {
-                    throw new Error(property + " must be a positive integer");
-                } else if (!ScreenMath.isPositiveNum(properties[property])) {
-                    throw new Error(property + " must be a positive number");
-                }
-
-                this.d[property] = properties[property];
-            } else {
+            if (typeof this.d[property] === "undefined") {
                 throw new Error("Invalid property '" + property + "'");
             }
+
+            // The property is valid. If the property is pixelWidth, pixelHeight, or pixelCount,
+            // make sure it's a positive int. Otherwise just make sure it's a positive number.
+
+            if (
+                ["pixelWidth", "pixelHeight", "pixelCount"].indexOf(property) !== -1
+                && !ScreenMath.isPositiveInt(properties[property])
+            ) {
+                throw new Error(property + " must be a positive integer");
+            } else if (!ScreenMath.isPositiveNum(properties[property])) {
+                throw new Error(property + " must be a positive number");
+            }
+
+            this.d[property] = properties[property];
         }
     }
 

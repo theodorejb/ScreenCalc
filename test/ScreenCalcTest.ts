@@ -17,30 +17,12 @@ describe('constructor', function () {
             });
         });
     });
-});
-
-describe('setData()', function () {
-    it('should reset unpassed properties if "reset" is set to true', function () {
-        var screen = new ScreenCalc({
-            pixelCount: 1000
-        });
-
-        screen.setData({
-            pixelWidth: 1024
-        }, true);
-
-        assert.strictEqual(screen.getPixelCount(), null);
-        assert.strictEqual(screen.getPixelWidth(), 1024);
-    });
 
     it('should not allow invalid properties to be set', function () {
         assert.throws(function () {
             new ScreenCalc({ invalidProperty: 123 });
         }, Error);
     });
-
-    it('should update dependent properties if they are already set');
-    it('should throw an error if conflicting data is provided');
 });
 
 describe('getPixelWidth()', function () {
@@ -437,14 +419,16 @@ describe('getPixelCount()', function () {
 });
 
 describe('getDiagonalSize()', function () {
-    var ipadMiniRetina = new ScreenCalc({ pixelWidth: 2048, pixelHeight: 1536 });
+    var ipadMiniRetinaProps: ScreenProperties = { pixelWidth: 2048, pixelHeight: 1536 };
 
     it("should return null if diagonal size and density aren't specified", function () {
+        var ipadMiniRetina = new ScreenCalc(ipadMiniRetinaProps);
         assert.strictEqual(ipadMiniRetina.getDiagonalSize(), null);
     });
 
     it('should correctly calculate the diagonal size when pixel density is set', function () {
-        ipadMiniRetina.setData({ pixelDensity: 326 });
+        ipadMiniRetinaProps.pixelDensity = 326;
+        var ipadMiniRetina = new ScreenCalc(ipadMiniRetinaProps);
         assert.strictEqual(Math.round(ipadMiniRetina.getDiagonalSize() * 10) / 10, 7.9);
     });
 });
