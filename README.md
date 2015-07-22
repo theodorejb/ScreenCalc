@@ -126,7 +126,10 @@ var exactStrRatio = laptop.getStringRatio(1.0e-5); // "683:384"
 
 ## Development
 
-ScreenCalc is written in TypeScript. After editing files, run `grunt` to compile everything, then `npm test` to ensure all the tests pass. Use `test/browser/index.html` to run the tests in a browser. Bug reports and pull requests are welcome!
+ScreenCalc is written in TypeScript. After editing files, run `npm install` to
+compile everything and create a browser test bundle. Run `npm test` to ensure all
+the tests pass, or use `test/browser/index.html` to run the tests in a browser.
+Bug reports and pull requests are welcome!
 
 ## Author
 

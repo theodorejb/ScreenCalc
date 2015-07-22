@@ -6,5 +6,4 @@ node_js:
   - iojs
 
 install:
-  - npm install -g grunt-cli
   - npm install
