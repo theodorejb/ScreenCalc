@@ -1,6 +1,6 @@
-.tscache/
 test/
-ts_definitions/
+typings/
 Gruntfile.js
+travis.yml
 *.ts
 !*.d.ts

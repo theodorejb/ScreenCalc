@@ -31,12 +31,12 @@
   ],
   "devDependencies": {
     "grunt": "~0.4.5",
-    "grunt-ts": "^3.0.0",
-    "grunt-browserify": "^3.3.0",
-    "mocha": "^2.1.0"
+    "grunt-browserify": "^3.8.0",
+    "mocha": "^2.2.5",
+    "typescript": "^1.5.3"
   },
   "scripts": {
-    "prepublish": "grunt pub",
+    "prepublish": "tsc && grunt",
     "test": "mocha"
   },
   "main": "./lib/ScreenCalc"

@@ -1,8 +1,5 @@
-/// <reference path="../ts_definitions/node.d.ts" />
-/// <reference path="../ts_definitions/mocha.d.ts" />
-
-import ScreenCalc = require('../lib/ScreenCalc');
-import assert = require('assert');
+import ScreenCalc from '../lib/ScreenCalc';
+import * as assert from 'assert';
 
 describe('constructor', function () {
     it('should allow displays to be constructed without any properties', function () {

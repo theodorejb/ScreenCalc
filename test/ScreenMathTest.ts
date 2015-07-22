@@ -1,8 +1,5 @@
-/// <reference path="../ts_definitions/node.d.ts" />
-/// <reference path="../ts_definitions/mocha.d.ts" />
-
-import ScreenMath = require('../lib/ScreenMath');
-import assert = require('assert');
+import * as ScreenMath from '../lib/ScreenMath';
+import * as assert from 'assert';
 
 describe('isPositiveInt()', function () {
     it('should return false for 0', function () {

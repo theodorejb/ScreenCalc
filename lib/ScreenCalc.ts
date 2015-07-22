@@ -1,6 +1,4 @@
-/// <reference path="ScreenProperties.d.ts" />
-
-import ScreenMath = require('./ScreenMath');
+import * as ScreenMath from './ScreenMath';
 
 /**
  * Allows screen information to be easily stored and calculated
@@ -279,7 +277,7 @@ class ScreenCalc {
 
         if (ratio !== null) {
             var strRatio = ratio.width.toString() + ':' + ratio.height.toString();
-            
+
             if (ratio.difference !== 0) {
                 strRatio = "~" + strRatio;
             }
@@ -349,4 +347,4 @@ class ScreenCalc {
 
 }
 
-export = ScreenCalc;
+export default ScreenCalc;
