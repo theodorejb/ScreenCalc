@@ -2,6 +2,17 @@
  * Contains functions for calculating screen properties
  */
 
+/** Calculate the physical height of a rectangle from its ratio and area */
+export function physicalHeightFromRatioAndArea(ratio: number, area: number): number {
+    /* 
+     * width = ratio * height
+     * area = ratio * height * height
+     * height^2 = area / ratio
+     */
+
+    return Math.sqrt(area / ratio);
+}
+
 /** Calculate the physical height of a rectangle from its ratio and diagonal size */
 export function physicalHeightFromRatioAndDiagonalSize(ratio: number, diagonalSize: number): number {
     /*

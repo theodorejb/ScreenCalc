@@ -76,6 +76,15 @@ describe('Calculate physical height', function () {
         var vivotabHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(vivotab.ratio, vivotab.diagonalSize);
         assert.strictEqual(Math.round(vivotabHeight * 100) / 100, 4.95);
     });
+
+    it('should work with ratio and area', function () {
+        var ipad = {
+            ratio: 2048 / 1536,
+            area: 7.76 * 5.82
+        };
+
+        assert.strictEqual(ScreenMath.physicalHeightFromRatioAndArea(ipad.ratio, ipad.area), 5.82);
+    });
 });
 
 describe('Calculate pixel height', function () {

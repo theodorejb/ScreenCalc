@@ -61,6 +61,9 @@ class ScreenCalc {
             } else if (this.d.diagonalSize !== null && this.d.pixelDensity !== null) {
                 var physicalHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
                 return physicalHeight * this.d.pixelDensity;
+            } else if (this.d.area !== null && this.d.pixelDensity !== null) {
+                var physicalHeight = ScreenMath.physicalHeightFromRatioAndArea(ratio, this.d.area);
+                return physicalHeight * this.d.pixelDensity;
             }
         }
 
@@ -104,13 +107,7 @@ class ScreenCalc {
                 } else if (this.d.diagonalSize !== null) {
                     return ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
                 } else if (this.d.area !== null) {
-                    /* 
-                     * width = ratio * height
-                     * area = ratio * height * height
-                     * height^2 = area / ratio
-                     */
-
-                    return Math.sqrt(this.d.area / ratio);
+                    return ScreenMath.physicalHeightFromRatioAndArea(ratio, this.d.area);
                 }
             }
         }

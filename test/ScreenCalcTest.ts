@@ -64,6 +64,16 @@ describe('getPixelHeight()', function () {
         assert.strictEqual(Math.round(ipadAir.getPixelHeight()), 1536);
     });
 
+    it('should work with ratio, area, and density', function () {
+        var monitor = new ScreenCalc({
+            area: 16 * 12,
+            ratio: 16 / 12,
+            pixelDensity: 100
+        });
+
+        assert.strictEqual(monitor.getPixelHeight(), 1200);
+    });
+
     it('should work with ratio, diagonal size, and density', function () {
         var ipadAir = new ScreenCalc({
             pixelDensity: 264,
