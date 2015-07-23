@@ -58,7 +58,7 @@ describe('isPositiveNum()', function () {
     });
 });
 
-describe('Calculate physical height', function () {
+describe('Calculate height', function () {
     it('should work with ratio and diagonal size', function () {
         var ipad = {
             ratio: 2048 / 1536,
@@ -83,20 +83,13 @@ describe('Calculate physical height', function () {
             area: 7.76 * 5.82
         };
 
-        assert.strictEqual(ScreenMath.physicalHeightFromRatioAndArea(ipad.ratio, ipad.area), 5.82);
-    });
-});
+        var tv = {
+            ratio: 16 / 9,
+            pixelCount: 1920 * 1080
+        };
 
-describe('Calculate pixel height', function () {
-    it('should work with ratio and pixel count', function () {
-        var ratio = 16 / 9;
-        var pixelCount = 1920 * 1080;
-
-        var ratio2 = 3 / 4;
-        var pixelCount2 = 1536 * 2048;
-
-        assert.strictEqual(ScreenMath.pixelHeightFromRatioAndPixelCount(ratio, pixelCount), 1080);
-        assert.strictEqual(ScreenMath.pixelHeightFromRatioAndPixelCount(ratio2, pixelCount2), 2048);
+        assert.strictEqual(ScreenMath.heightFromRatioAndArea(ipad.ratio, ipad.area), 5.82);
+        assert.strictEqual(ScreenMath.heightFromRatioAndArea(tv.ratio, tv.pixelCount), 1080);
     });
 });
 

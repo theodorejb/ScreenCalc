@@ -57,12 +57,12 @@ class ScreenCalc {
             if (this.d.pixelWidth !== null) {
                 return this.d.pixelWidth / ratio;
             } else if (this.d.pixelCount !== null) {
-                return ScreenMath.pixelHeightFromRatioAndPixelCount(ratio, this.d.pixelCount);
+                return ScreenMath.heightFromRatioAndArea(ratio, this.d.pixelCount);
             } else if (this.d.diagonalSize !== null && this.d.pixelDensity !== null) {
                 var physicalHeight = ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
                 return physicalHeight * this.d.pixelDensity;
             } else if (this.d.area !== null && this.d.pixelDensity !== null) {
-                var physicalHeight = ScreenMath.physicalHeightFromRatioAndArea(ratio, this.d.area);
+                var physicalHeight = ScreenMath.heightFromRatioAndArea(ratio, this.d.area);
                 return physicalHeight * this.d.pixelDensity;
             }
         }
@@ -107,7 +107,7 @@ class ScreenCalc {
                 } else if (this.d.diagonalSize !== null) {
                     return ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
                 } else if (this.d.area !== null) {
-                    return ScreenMath.physicalHeightFromRatioAndArea(ratio, this.d.area);
+                    return ScreenMath.heightFromRatioAndArea(ratio, this.d.area);
                 }
             }
         }

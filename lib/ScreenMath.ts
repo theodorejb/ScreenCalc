@@ -2,8 +2,8 @@
  * Contains functions for calculating screen properties
  */
 
-/** Calculate the physical height of a rectangle from its ratio and area */
-export function physicalHeightFromRatioAndArea(ratio: number, area: number): number {
+/** Calculate the height of a rectangle from its ratio and area */
+export function heightFromRatioAndArea(ratio: number, area: number): number {
     /* 
      * width = ratio * height
      * area = ratio * height * height
@@ -34,17 +34,6 @@ export function physicalHeightFromRatioAndDiagonalSize(ratio: number, diagonalSi
     var baseSquared = ratioSquared + 1;
     var heightSquared = diagonalSquared / baseSquared;
     return Math.sqrt(heightSquared);
-}
-
-/** Get the pixel height of a screen given its ratio and total number of pixels */
-export function pixelHeightFromRatioAndPixelCount(ratio: number, pixelCount: number): number {
-    /*
-     * Formula:  pixelHeight * ratio * pixelHeight = pixelCount
-     * Simplify: ratio * (pixelHeight)^2 = pixelCount
-     * Solve:    pixelHeight = sqrt( pixelCount / ratio )
-     */
-
-    return Math.sqrt(pixelCount / ratio);
 }
 
 /** Get the ratio of a screen given its height in pixels and total number of pixels */
