@@ -36,17 +36,6 @@ export function physicalHeightFromRatioAndDiagonalSize(ratio: number, diagonalSi
     return Math.sqrt(heightSquared);
 }
 
-/** Get the ratio of a screen given its height in pixels and total number of pixels */
-export function ratioFromPixelHeightAndPixelCount(pixelHeight: number, pixelCount: number) {
-    /*
-     * Formula:  pixelHeight * ratio * pixelHeight = pixelCount
-     * Simplify: ratio * (pixelHeight)^2 = pixelCount
-     * Solve:    ratio = pixelCount / (pixelHeight)^2
-     */
-
-    return pixelCount / Math.pow(pixelHeight, 2);
-}
-
 /**
  * Calculates the simplest fraction for a floating point number using continued fractions 
  * (based on http://en.wikipedia.org/wiki/Continued_fraction#Infinite_continued_fractions)

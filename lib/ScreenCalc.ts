@@ -297,11 +297,9 @@ class ScreenCalc {
 
         if (this.d.pixelCount !== null) {
             if (this.d.pixelHeight !== null) {
-                var ratio = ScreenMath.ratioFromPixelHeightAndPixelCount(this.d.pixelHeight, this.d.pixelCount);
-                return { height: this.d.pixelHeight, width: this.d.pixelHeight * ratio };
+                return { width: this.d.pixelCount / this.d.pixelHeight, height: this.d.pixelHeight };
             } else if (this.d.pixelWidth !== null) {
-                var pixelHeight = this.d.pixelCount / this.d.pixelWidth;
-                return { height: pixelHeight, width: this.d.pixelWidth };
+                return { width: this.d.pixelWidth, height: this.d.pixelCount / this.d.pixelWidth };
             }
         }
 
@@ -321,16 +319,15 @@ class ScreenCalc {
         }
 
         if (this.d.area !== null) {
-            if (this.d.physicalWidth !== null) {
-                return { width: this.d.physicalWidth, height: this.d.area / this.d.physicalWidth };
-            } else if (this.d.physicalHeight !== null) {
+            if (this.d.physicalHeight !== null) {
                 return { width: this.d.area / this.d.physicalHeight, height: this.d.physicalHeight };
+            } else if (this.d.physicalWidth !== null) {
+                return { width: this.d.physicalWidth, height: this.d.area / this.d.physicalWidth };
             }
         }
 
         return null;
     }
-
 }
 
 export default ScreenCalc;
