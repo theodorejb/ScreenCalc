@@ -1,6 +1,6 @@
 {
   "name": "screencalc",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Calculate data about any display (width, height, ratio, area, density, etc.)",
   "author": {
     "name": "Theodore Brown",
