@@ -124,6 +124,16 @@ describe('getPhysicalWidth()', function () {
 
         assert.strictEqual(screen.getPhysicalWidth(), 40);
     });
+
+    it('should work when the height, density, and total number of pixels are known', function () {
+        var screen = new ScreenCalc({
+            physicalHeight: 12,
+            pixelDensity: 100,
+            pixelCount: 1600 * 1200
+        });
+
+        assert.strictEqual(screen.getPhysicalWidth(), 16);
+    });
 });
 
 describe('getPhysicalHeight()', function () {

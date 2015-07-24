@@ -278,7 +278,7 @@ class ScreenCalc {
      * Tries to calculate width and height in the same units (used for ratio calculation).
      * Returns an object with height and width properties, or null if insufficient data.
      */
-    private calculateWidthAndHeight() {
+    private calculateWidthAndHeight(): { width: number, height: number } {
         if (this.d.pixelWidth !== null && this.d.pixelHeight !== null) {
             return { width: this.d.pixelWidth, height: this.d.pixelHeight };
         } else if (this.d.physicalWidth !== null && this.d.physicalHeight !== null) {
@@ -300,6 +300,14 @@ class ScreenCalc {
                 return { width: this.d.pixelCount / this.d.pixelHeight, height: this.d.pixelHeight };
             } else if (this.d.pixelWidth !== null) {
                 return { width: this.d.pixelWidth, height: this.d.pixelCount / this.d.pixelWidth };
+            } else if (this.d.pixelDensity !== null) {
+                if (this.d.physicalHeight !== null) {
+                    var pixelHeight = this.d.physicalHeight * this.d.pixelDensity;
+                    return { width: this.d.pixelCount / pixelHeight, height: pixelHeight };
+                } else if (this.d.physicalWidth !== null) {
+                    var pixelWidth = this.d.physicalWidth * this.d.pixelDensity;
+                    return { width: pixelWidth, height: this.d.pixelCount / pixelWidth };
+                }
             }
         }
 
