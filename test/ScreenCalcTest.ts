@@ -20,7 +20,7 @@ describe('constructor', function () {
 
     it('should not allow invalid properties to be set', function () {
         assert.throws(function () {
-            new ScreenCalc({ invalidProperty: 123 });
+            new ScreenCalc({ invalidProperty: 123 } as ScreenProperties);
         }, Error);
     });
 });

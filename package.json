@@ -30,9 +30,9 @@
     "height"
   ],
   "devDependencies": {
-    "browserify": "^11.0.0",
-    "mocha": "^2.2.5",
-    "typescript": "^1.5.3"
+    "browserify": "^11.1.0",
+    "mocha": "^2.3.2",
+    "typescript": "^1.6.2"
   },
   "scripts": {
     "prepublish": "tsc && browserify test/ScreenCalcTest.js test/ScreenMathTest.js -o test/browser/testbundle.js",
