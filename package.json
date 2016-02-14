@@ -39,5 +39,6 @@
     "prepublish": "typings install && tsc && browserify test/ScreenCalcTest.js test/ScreenMathTest.js -o test/browser/testbundle.js",
     "test": "mocha"
   },
+  "typings": "./lib/ScreenCalc.d.ts",
   "main": "./lib/ScreenCalc"
 }
