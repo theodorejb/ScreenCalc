@@ -1,3 +1,4 @@
+import {ScreenProperties} from '../lib/ScreenProperties';
 import ScreenCalc from '../lib/ScreenCalc';
 import * as assert from 'assert';
 

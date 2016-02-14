@@ -1,6 +1,5 @@
-node_modules/
+/node_modules/
+/typings/
 lib/*.js
 test/**/*.js
 *.d.ts
-!lib/ScreenProperties.d.ts
-!typings/*.d.ts

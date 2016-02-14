@@ -1,5 +1,6 @@
 test/
 typings/
+typings.json
 travis.yml
 *.ts
 !*.d.ts

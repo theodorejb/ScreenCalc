@@ -1,3 +1,4 @@
+import {ScreenProperties} from './ScreenProperties';
 import * as ScreenMath from './ScreenMath';
 
 /**

@@ -1,7 +1,7 @@
 /**
  * Defines the properties available to a screen
  */
-interface ScreenProperties {
+export interface ScreenProperties {
     /** The screen's width in pixels */
     pixelWidth?: number;
 

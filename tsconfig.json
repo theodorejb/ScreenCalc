@@ -3,12 +3,9 @@
     "module": "commonjs",
     "declaration": true
   },
-  "files": [
-    "lib/ScreenCalc.ts",
-    "lib/ScreenProperties.d.ts",
-    "test/ScreenCalcTest.ts",
-    "test/ScreenMathTest.ts",
-    "typings/mocha.d.ts",
-    "typings/node.d.ts"
+  "exclude": [
+      "node_modules",
+      "typings/browser.d.ts",
+      "typings/browser"
   ]
 }
