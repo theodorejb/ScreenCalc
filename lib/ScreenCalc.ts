@@ -293,6 +293,14 @@ class ScreenCalc {
             } else if (this.d.pixelHeight !== null && this.d.physicalWidth !== null) {
                 var physicalHeight = this.d.pixelHeight / this.d.pixelDensity;
                 return { width: this.d.physicalWidth, height: physicalHeight };
+            } else if (this.d.pixelHeight !== null && this.d.diagonalSize !== null) {
+                var physicalHeight = this.d.pixelHeight / this.d.pixelDensity;
+                var physicalWidth = Math.sqrt(this.d.diagonalSize ** 2 - physicalHeight ** 2);
+                return { width: physicalWidth, height: physicalHeight };
+            } else if (this.d.pixelWidth !== null && this.d.diagonalSize !== null) {
+                var physicalWidth = this.d.pixelWidth / this.d.pixelDensity;
+                var physicalHeight = Math.sqrt(this.d.diagonalSize ** 2 - physicalWidth ** 2);
+                return { width: physicalWidth, height: physicalHeight };
             }
         }
 

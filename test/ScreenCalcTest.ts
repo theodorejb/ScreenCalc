@@ -98,6 +98,16 @@ describe('getPixelHeight()', function () {
 });
 
 describe('getPhysicalWidth()', function () {
+    it('should work when pixel height, density, and diagonal size are known', function () {
+        var screen = new ScreenCalc({
+            diagonalSize: 22.946949688357275,
+            pixelHeight: 1080,
+            pixelDensity: 96
+        });
+
+        assert.strictEqual(screen.getPhysicalWidth(), 20);
+    });
+
     it('should work with resolution and diagonal size', function () {
         var ipadAir = new ScreenCalc({
             pixelWidth: 2048,
@@ -138,6 +148,16 @@ describe('getPhysicalWidth()', function () {
 });
 
 describe('getPhysicalHeight()', function () {
+    it('should work when pixel width, density, and diagonal size are known', function () {
+        var screen = new ScreenCalc({
+            diagonalSize: 22.946949688357275,
+            pixelWidth: 1920,
+            pixelDensity: 96
+        });
+
+        assert.strictEqual(screen.getPhysicalHeight(), 11.25);
+    });
+
     it('should work when the resolution and diagonal size are known', function () {
         var ipadAir = new ScreenCalc({
             pixelWidth: 2048,
