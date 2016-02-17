@@ -104,7 +104,7 @@ In addition to the getter methods corresponding to each settable property, Scree
 
 ```javascript
 var laptop = new ScreenCalc({
-	pixelWidth:  1366,
+    pixelWidth:  1366,
     pixelHeight: 768
 });
 
