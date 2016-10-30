@@ -30,13 +30,15 @@
     "height"
   ],
   "devDependencies": {
-    "browserify": "^13.0.0",
-    "mocha": "^2.4.5",
-    "typescript": "^1.8.2",
-    "typings": "^0.6.8"
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.46",
+    "browserify": "^13.1.1",
+    "mocha": "^3.1.2",
+    "typescript": "^2.0.6"
   },
   "scripts": {
-    "prepublish": "typings install && tsc && browserify test/ScreenCalcTest.js test/ScreenMathTest.js -o test/browser/testbundle.js",
+    "watch": "tsc --watch",
+    "prepublish": "tsc && browserify test/ScreenCalcTest.js test/ScreenMathTest.js -o test/browser/testbundle.js",
     "test": "mocha"
   },
   "typings": "./lib/ScreenCalc.d.ts",

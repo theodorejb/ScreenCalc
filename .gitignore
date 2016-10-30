@@ -1,5 +1,4 @@
 /node_modules/
-/typings/
 lib/*.js
 test/**/*.js
 *.d.ts
