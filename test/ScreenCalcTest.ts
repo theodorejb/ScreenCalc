@@ -3,12 +3,6 @@ import ScreenCalc from '../lib/ScreenCalc';
 import * as assert from 'assert';
 
 describe('constructor', function () {
-    it('should allow displays to be constructed without any properties', function () {
-        assert.doesNotThrow(function () {
-            var screen = new ScreenCalc();
-        });
-    });
-
     it('should allow screens to be created with multiple properties', function () {
         assert.doesNotThrow(function () {
             var screen = new ScreenCalc({
@@ -17,12 +11,6 @@ describe('constructor', function () {
                 diagonalSize: 10.6
             });
         });
-    });
-
-    it('should not allow invalid properties to be set', function () {
-        assert.throws(function () {
-            new ScreenCalc({ invalidProperty: 123 } as ScreenProperties);
-        }, Error);
     });
 });
 
@@ -269,9 +257,12 @@ describe('getSimpleRatio()', function () {
         assert.deepEqual(monitor.getSimpleRatio(), { width: 16, height: 9, difference: 0 });
     });
 
-    it('should return null if ratio is not available', function () {
+    it('should throw error if ratio is not available', function () {
         var screen = new ScreenCalc({ pixelWidth: 1024, physicalHeight: 15 });
-        assert.strictEqual(screen.getSimpleRatio(), null);
+
+        assert.throws(function () {
+            screen.getSimpleRatio();
+        }, /^Error: Insufficient data to calculate ratio$/);
     });
 
     it('should convert 8:5 ratios to 16:10', function () {
@@ -314,9 +305,12 @@ describe('getStringRatio()', function () {
         assert.strictEqual(screen.getStringRatio(1.0e-5), "683:384");
     });
 
-    it('should return null if insufficient data', function () {
-        var screen = new ScreenCalc();
-        assert.strictEqual(screen.getStringRatio(), null);
+    it('should return throw error if insufficient data', function () {
+        var screen = new ScreenCalc({});
+
+        assert.throws(function () {
+            screen.getStringRatio();
+        }, /^Error: Insufficient data to calculate ratio$/);
     });
 });
 
@@ -369,13 +363,15 @@ describe('getArea()', function () {
         assert.strictEqual(Math.round(ipadAir.getArea() * 100) / 100, 45.16);
     });
 
-    it('should return null if there is insufficient data', function () {
+    it('should throw error if there is insufficient data', function () {
         var limitedData = new ScreenCalc({
             pixelWidth: 1024,
             pixelHeight: 768
         });
 
-        assert.strictEqual(limitedData.getArea(), null);
+        assert.throws(function () {
+            limitedData.getArea();
+        }, /^Error: Insufficient data to calculate area$/);
     });
 });
 
@@ -453,18 +449,24 @@ describe('getPixelCount()', function () {
         assert.strictEqual(screen.getPixelCount(), 1000000);
     });
 
-    it('should return null if insufficient data', function () {
+    it('should throw error if insufficient data', function () {
         var screen = new ScreenCalc({ pixelWidth: 1024 });
-        assert.strictEqual(screen.getPixelCount(), null);
+
+        assert.throws(function () {
+            screen.getPixelCount();
+        }, /^Error: Insufficient data to calculate pixel count$/);
     });
 });
 
 describe('getDiagonalSize()', function () {
     var ipadMiniRetinaProps: ScreenProperties = { pixelWidth: 2048, pixelHeight: 1536 };
 
-    it("should return null if diagonal size and density aren't specified", function () {
+    it("should throw error if diagonal size and density aren't specified", function () {
         var ipadMiniRetina = new ScreenCalc(ipadMiniRetinaProps);
-        assert.strictEqual(ipadMiniRetina.getDiagonalSize(), null);
+
+        assert.throws(function () {
+            ipadMiniRetina.getDiagonalSize();
+        }, /^Error: Insufficient data to calculate diagonal size$/);
     });
 
     it('should correctly calculate the diagonal size when pixel density is set', function () {

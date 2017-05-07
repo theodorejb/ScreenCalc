@@ -1,4 +1,4 @@
-import {ScreenProperties} from './ScreenProperties';
+import {ScreenProperties, AllScreenProperties} from './ScreenProperties';
 import * as ScreenMath from './ScreenMath';
 
 /**
@@ -6,9 +6,9 @@ import * as ScreenMath from './ScreenMath';
  */
 class ScreenCalc {
     /** Holds the provided display data */
-    private d: ScreenProperties;
+    private d: AllScreenProperties;
 
-    constructor(properties: ScreenProperties = {}) {
+    constructor(properties: ScreenProperties) {
         // properties should be initialized to null
         this.d = {
             pixelWidth:     null,
@@ -22,39 +22,36 @@ class ScreenCalc {
             diagonalSize:   null,
         };
 
-        for (var property in properties) {
-            if (typeof this.d[property] === "undefined") {
-                throw new Error("Invalid property '" + property + "'");
+        let intProps: {[key: string]: boolean} = {
+            pixelWidth: true,
+            pixelHeight: true,
+            pixelCount: true,
+        };
+
+        for (let property in properties) {
+            let prop = property as keyof ScreenProperties;
+
+            if (intProps[prop] && !ScreenMath.isPositiveInt(properties[prop])) {
+                throw new Error(`${prop} must be a positive integer`);
+            } else if (!ScreenMath.isPositiveNum(properties[prop])) {
+                throw new Error(`${prop} must be a positive number`);
             }
 
-            // The property is valid. If the property is pixelWidth, pixelHeight, or pixelCount,
-            // make sure it's a positive int. Otherwise just make sure it's a positive number.
-
-            if (
-                ["pixelWidth", "pixelHeight", "pixelCount"].indexOf(property) !== -1
-                && !ScreenMath.isPositiveInt(properties[property])
-            ) {
-                throw new Error(property + " must be a positive integer");
-            } else if (!ScreenMath.isPositiveNum(properties[property])) {
-                throw new Error(property + " must be a positive number");
-            }
-
-            this.d[property] = properties[property];
+            this.d[prop] = properties[prop];
         }
     }
 
     /**
      * Attempts to calculate/return the pixel height of the screen.
-     * Returns null if there is insufficient data.
      */
     public getPixelHeight(): number {
         if (this.d.physicalHeight !== null && this.d.pixelDensity !== null) {
             return this.d.physicalHeight * this.d.pixelDensity;
         }
 
-        var ratio = this.getRatio();
+        try {
+            var ratio = this.getRatio();
 
-        if (ratio !== null) {
             if (this.d.pixelWidth !== null) {
                 return this.d.pixelWidth / ratio;
             } else if (this.d.pixelCount !== null) {
@@ -66,6 +63,10 @@ class ScreenCalc {
                 var physicalHeight = ScreenMath.heightFromRatioAndArea(ratio, this.d.area);
                 return physicalHeight * this.d.pixelDensity;
             }
+        } catch (e) {}
+
+        if (this.d.pixelHeight === null) {
+            throw new Error("Insufficient data to calculate pixel height");
         }
 
         return this.d.pixelHeight;
@@ -73,18 +74,18 @@ class ScreenCalc {
 
     /**
      * Attempts to calculate/return the pixel width of the screen.
-     * Returns null if there is insufficient data.
      */
     public getPixelWidth(): number {
         if (this.d.physicalWidth !== null && this.d.pixelDensity !== null) {
             return this.d.physicalWidth * this.d.pixelDensity;
-        } else {
-            var ratio = this.getRatio();
-            var pixelHeight = this.getPixelHeight();
+        }
 
-            if (pixelHeight !== null && ratio !== null) {
-                return pixelHeight * ratio;
-            }
+        try {
+            return this.getPixelHeight() * this.getRatio();
+        } catch (e) {}
+
+        if (this.d.pixelWidth === null) {
+            throw new Error("Insufficient data to calculate pixel width");
         }
 
         return this.d.pixelWidth;
@@ -92,25 +93,30 @@ class ScreenCalc {
 
     /**
      * Attempts to calculate/return the screen's physical height.
-     * Returns null if there is insufficient data.
      */
     public getPhysicalHeight(): number {
-        var pixelHeight = this.getPixelHeight();
+        try {
+            var pixelHeight = this.getPixelHeight();
 
-        if (pixelHeight !== null && this.d.pixelDensity !== null) {
-            return pixelHeight / this.d.pixelDensity;
-        } else {
+            if (this.d.pixelDensity !== null) {
+                return pixelHeight / this.d.pixelDensity;
+            }
+        } catch (e) {}
+
+        try {
             var ratio = this.getRatio();
 
-            if (ratio !== null) {
-                if (this.d.physicalWidth !== null) {
-                    return this.d.physicalWidth / ratio;
-                } else if (this.d.diagonalSize !== null) {
-                    return ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
-                } else if (this.d.area !== null) {
-                    return ScreenMath.heightFromRatioAndArea(ratio, this.d.area);
-                }
+            if (this.d.physicalWidth !== null) {
+                return this.d.physicalWidth / ratio;
+            } else if (this.d.diagonalSize !== null) {
+                return ScreenMath.physicalHeightFromRatioAndDiagonalSize(ratio, this.d.diagonalSize);
+            } else if (this.d.area !== null) {
+                return ScreenMath.heightFromRatioAndArea(ratio, this.d.area);
             }
+        } catch (e) {}
+
+        if (this.d.physicalHeight === null) {
+            throw new Error("Insufficient data to calculate physical height");
         }
 
         return this.d.physicalHeight;
@@ -118,18 +124,18 @@ class ScreenCalc {
 
     /**
      * Attempts to calculate/return the screen's physical width.
-     * Returns null if there is insufficient data.
      */
     public getPhysicalWidth(): number {
         if (this.d.pixelDensity !== null && this.d.pixelWidth !== null) {
             return this.d.pixelWidth / this.d.pixelDensity;
-        } else {
-            var height = this.getPhysicalHeight();
-            var ratio = this.getRatio();
+        }
 
-            if (height !== null && ratio !== null) {
-                return height * ratio;
-            }
+        try {
+            return this.getPhysicalHeight() * this.getRatio();
+        } catch (e) {}
+
+        if (this.d.physicalWidth === null) {
+            throw new Error("Insufficient data to calculate physical width");
         }
 
         return this.d.physicalWidth;
@@ -137,15 +143,18 @@ class ScreenCalc {
 
     /**
      * Attempts to calculate/return the screen's diagonal size.
-     * Returns null if there is insufficient data.
      */
     public getDiagonalSize(): number {
-        var w = this.getPhysicalWidth();
-        var h = this.getPhysicalHeight();
+        try {
+            var w = this.getPhysicalWidth();
+            var h = this.getPhysicalHeight();
 
-        if (h !== null && w !== null) {
             var diagonalSq = (h * h) + (w * w);
             return Math.sqrt(diagonalSq);
+        } catch (e) {}
+
+        if (this.d.diagonalSize === null) {
+            throw new Error("Insufficient data to calculate diagonal size");
         }
 
         return this.d.diagonalSize;
@@ -156,45 +165,46 @@ class ScreenCalc {
      * (will be ppi if units are in, or ppcm if units are cm)
      */
     public getPixelDensity(): number {
-        var pixelHeight = this.getPixelHeight();
-        var physicalHeight = this.getPhysicalHeight();
+        try {
+            return this.getPixelHeight() / this.getPhysicalHeight();
+        } catch (e) {}
 
-        if (pixelHeight !== null && physicalHeight !== null) {
-            return pixelHeight / physicalHeight;
-        } else {
-            var pixelWidth = this.getPixelWidth();
-            var physicalWidth = this.getPhysicalWidth();
+        try {
+            return this.getPixelWidth() / this.getPhysicalWidth();
+        } catch (e) {}
 
-            if (pixelWidth !== null && physicalWidth !== null) {
-                return pixelWidth / physicalWidth;
-            }
+        if (this.d.pixelDensity === null) {
+            throw new Error("Insufficient data to calculate pixel density");
         }
 
         return this.d.pixelDensity;
     }
 
     /**
-     * Returns the area of the display in square units, or null if there
-     * is insufficient data to calculate the physical width and height.
+     * Returns the area of the display in square units.
      */
     public getArea(): number {
-        var w = this.getPhysicalWidth();
-        var h = this.getPhysicalHeight();
+        try {
+            return this.getPhysicalWidth() * this.getPhysicalHeight();
+        } catch (e) {}
 
-        if (w !== null && h !== null) {
-            return w * h;
+        if (this.d.area === null) {
+            throw new Error("Insufficient data to calculate area");
         }
 
         return this.d.area;
     }
 
-    /** Returns the total number of pixels in the screen */
+    /**
+     * Returns the total number of pixels in the screen.
+     */
     public getPixelCount(): number {
-        var w = this.getPixelWidth();
-        var h = this.getPixelHeight();
+        try {
+            return this.getPixelWidth() * this.getPixelHeight();
+        } catch (e) {}
 
-        if (w !== null && h !== null) {
-            return w * h;
+        if (this.d.pixelCount === null) {
+            throw new Error("Insufficient data to calculate pixel count");
         }
 
         return this.d.pixelCount;
@@ -213,6 +223,10 @@ class ScreenCalc {
             return wAndH.width / wAndH.height;
         }
 
+        if (this.d.ratio === null) {
+            throw new Error("Insufficient data to calculate ratio");
+        }
+
         return this.d.ratio;
     }
 
@@ -228,26 +242,21 @@ class ScreenCalc {
      */
     public getSimpleRatio(precision?: number) {
         var ratio = this.getRatio();
+        var fractionArr = ScreenMath.calculateSimplestFraction(ratio, precision);
+        var simpleWidth = fractionArr[0];
+        var simpleHeight = fractionArr[1];
 
-        if (ratio !== null) {
-            var fractionArr = ScreenMath.calculateSimplestFraction(ratio, precision);
-            var simpleWidth = fractionArr[0];
-            var simpleHeight = fractionArr[1];
-
-            // 8:5 ratios should be converted to 16:10
-            if (simpleWidth / simpleHeight === 16 / 10) {
-                simpleWidth = 16;
-                simpleHeight = 10;
-            } else if (simpleWidth / simpleHeight === 10 / 16) {
-                simpleWidth = 10;
-                simpleHeight = 16;
-            }
-
-            var difference = (simpleWidth / simpleHeight) - ratio;
-            return { width: simpleWidth, height: simpleHeight, difference: difference };
+        // 8:5 ratios should be converted to 16:10
+        if (simpleWidth / simpleHeight === 16 / 10) {
+            simpleWidth = 16;
+            simpleHeight = 10;
+        } else if (simpleWidth / simpleHeight === 10 / 16) {
+            simpleWidth = 10;
+            simpleHeight = 16;
         }
 
-        return null;
+        var difference = (simpleWidth / simpleHeight) - ratio;
+        return { width: simpleWidth, height: simpleHeight, difference: difference };
     }
 
     /**
@@ -261,25 +270,20 @@ class ScreenCalc {
      */
     public getStringRatio(precision?: number): string {
         var ratio = this.getSimpleRatio(precision);
+        var strRatio = ratio.width.toString() + ':' + ratio.height.toString();
 
-        if (ratio !== null) {
-            var strRatio = ratio.width.toString() + ':' + ratio.height.toString();
-
-            if (ratio.difference !== 0) {
-                strRatio = "~" + strRatio;
-            }
-
-            return strRatio;
+        if (ratio.difference !== 0) {
+            strRatio = "~" + strRatio;
         }
 
-        return null;
+        return strRatio;
     }
 
     /**
      * Tries to calculate width and height in the same units (used for ratio calculation).
      * Returns an object with height and width properties, or null if insufficient data.
      */
-    private calculateWidthAndHeight(): { width: number, height: number } {
+    private calculateWidthAndHeight(): { width: number, height: number } | null {
         if (this.d.pixelWidth !== null && this.d.pixelHeight !== null) {
             return { width: this.d.pixelWidth, height: this.d.pixelHeight };
         } else if (this.d.physicalWidth !== null && this.d.physicalHeight !== null) {

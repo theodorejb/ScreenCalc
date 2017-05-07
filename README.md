@@ -57,7 +57,7 @@ var d = screen.getDiagonalSize(); // 135.2
 
 ## Usage
 
-Install using npm. For client-side use, check out [browserify](http://browserify.org/).
+Install using npm:
 
 `npm install screencalc`
 
@@ -85,13 +85,15 @@ var screen = new ScreenCalc({
 8. area
 9. diagonalSize
 
-Each of these properties has a corresponding *getPropertyName()* method (e.g. `getPixelHeight()`). Individual methods will return `null` if there is not enough data to perform the calculation:
+Each of these properties has a corresponding *getPropertyName()* method (e.g. `getPixelHeight()`). Methods will throw an error if there is not enough data to perform the calculation:
 
 ```javascript
 var noPixels = new ScreenCalc({
-	physicalWidth:  30,
+    physicalWidth:  30,
     physicalHeight: 18
-}).getPixelCount(); // null
+});
+
+noPixels.getPixelCount(); // Error: Insufficient data to calculate pixel count
 ```
 
 **Note:** ScreenCalc intentionally avoids rounding any values calculated by these methods (including pixel width, pixel height, and pixel count). When working with imprecise data, be sure to round results as necessary.
@@ -120,16 +122,13 @@ var strRatio = laptop.getStringRatio(); // "~16:9"
 Both `getSimpleRatio()` and `getStringRatio()` accept an optional parameter to override the default precision. This parameter should be a number between 0 and 1, where values closer to zero increase the precision. If not specified, the precision will default to `5.0e-3`.
 
 ```javascript
-var exactRatio    = laptop.getSimpleRatio(1.0e-5); // { width: 683, height: 384, difference: 0 }
+var exactRatio = laptop.getSimpleRatio(1.0e-5); // { width: 683, height: 384, difference: 0 }
 var exactStrRatio = laptop.getStringRatio(1.0e-5); // "683:384"
 ```
 
 ## Development
 
-ScreenCalc is written in TypeScript. After editing files, run `npm install` to
-compile everything and create a browser test bundle. Run `npm test` to ensure all
-the tests pass, or use `test/browser/index.html` to run the tests in a browser.
-Bug reports and pull requests are welcome!
+ScreenCalc is written in TypeScript. After editing files, run `npm install` to compile everything and create a browser test bundle. Run `npm test` to ensure all the tests pass, or use `test/browser/index.html` to run the tests in a browser. Bug reports and pull requests are welcome!
 
 ## Author
 

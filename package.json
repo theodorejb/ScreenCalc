@@ -30,11 +30,11 @@
     "height"
   ],
   "devDependencies": {
-    "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.46",
-    "browserify": "^13.1.1",
-    "mocha": "^3.1.2",
-    "typescript": "^2.0.6"
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.18",
+    "browserify": "^14.3.0",
+    "mocha": "^3.3.0",
+    "typescript": "^2.3.2"
   },
   "scripts": {
     "watch": "tsc --watch",
